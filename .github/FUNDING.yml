@@ -1,0 +1,20 @@
+# Supported funding platforms for AMS-AI
+
+github: [ams-ai, narasimman-saravana]   # Replace with GitHub Sponsors usernames
+patreon: ams_ai_platform               # Patreon username
+open_collective: ams-ai                # Open Collective project name
+ko_fi: ams_ai                          # Ko-fi username
+tidelift: pypi/ams-ai                  # Example: platform/package-name
+community_bridge: ams-ai-platform     # Community Bridge project name
+liberapay: ams_ai                      # Liberapay username
+issuehunt: ams-ai                      # IssueHunt username
+lfx_crowdfunding: ams-ai               # Linux Foundation Crowdfunding project
+polar: ams_ai                          # Polar username
+buy_me_a_coffee: ams_ai                # Buy Me a Coffee username
+thanks_dev: ams_ai                     # thanks.dev username
+
+custom:
+  - "https://ams-ai.io/sponsor"
+  - "https://ams-ai.io/enterprise-support"
+  - "https://paypal.me/amsai"
+  - "https://razorpay.me/amsai"
