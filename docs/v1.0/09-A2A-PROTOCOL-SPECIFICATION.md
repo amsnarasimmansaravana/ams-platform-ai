@@ -2,29 +2,68 @@
 
 ## AMS-AI: Multi-Agent Orchestration Platform
 
-**Document Version:** 1.0  
-**Last Updated:** 2026-01-25  
-**Status:** Draft
+**Document Version:** 1.0
+**Last Updated:** 2026-04-12
+**Status:** Complete Protocol Specification
+**Protocol Status:** Ready for Implementation & External Adoption
 
 ---
 
-## 1. Overview
+## 1. Overview & Protocol Architecture
 
 ### 1.1 Introduction
 
-AMS-AI implements the **Agent-to-Agent (A2A) Protocol** as the standard for agent onboarding, discovery, and inter-agent communication. A2A is an open protocol that enables agents from different frameworks and vendors to discover each other's capabilities and collaborate on tasks.
+AMS-AI implements the **Agent-to-Agent (A2A) Protocol v1.0**, an open standard for agent discovery, capability advertisement, and inter-agent communication. A2A enables:
+
+- **Interoperability** - Agents from LangChain, AutoGen, CrewAI, and custom frameworks communicate seamlessly
+- **Framework-Agnostic** - Core logic independent of specific AI implementation details
+- **Capability-Driven** - Agents advertise skills, others discover and invoke dynamically
+- **Enterprise-Ready** - Built-in security, streaming, async patterns, error handling
+- **Production-Proven** - Tested with LLM agents, workflow agents, and external services
 
 ### 1.2 Why A2A Protocol
 
-| Benefit | Description |
-|---------|-------------|
-| **Interoperability** | Agents from different frameworks (LangChain, AutoGen, CrewAI) can communicate |
-| **Standardization** | Common interface for agent capabilities and communication |
-| **Discovery** | Agents can discover each other's capabilities dynamically |
-| **Security** | Built-in authentication and authorization mechanisms |
-| **Flexibility** | Support for various interaction patterns (sync, async, streaming) |
+| Benefit | Description | Use Case |
+|---------|-------------|----------|
+| **Interoperability** | Agents from different frameworks communicate natively | LangChain agent calling AutoGen agent |
+| **Discovery** | Dynamic skill/capability discovery without hardcoding | Marketplace of agent capabilities |
+| **Standardization** | Common interface across vendors | Enterprise integration standards |
+| **Security** | Built-in auth, encryption, rate limiting | Secure multi-tenant execution |
+| **Flexibility** | Async, streaming, long-polling patterns | Real-time vs batch workflows |
 
-### 1.3 A2A in AMS-AI Context
+### 1.3 A2A Protocol Architecture
+
+```
+┌──────────────────────────────────────────────────────────────────────────┐
+│                    AGENT-TO-AGENT PROTOCOL STACK                          │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  DISCOVERY LAYER (Agent Capability Discovery)                            │
+│  ├─ Agent Card Publication (/.well-known/agent.json)                     │
+│  ├─ Capability Indexing (Full-text skill search)                          │
+│  └─ Registry Integration (Onboarding, versioning)                         │
+│                                                                           │
+│  COMMUNICATION LAYER (Task Execution Patterns)                            │
+│  ├─ Synchronous RPC (Request-Response, blocking)                          │
+│  ├─ Asynchronous Queue (Fire-and-forget with polling)                     │
+│  ├─ Streaming (Server-Sent Events, real-time updates)                     │
+│  └─ Callback (Webhook-based notifications)                               │
+│                                                                           │
+│  MESSAGE LAYER (Protocol Messages & Schemas)                             │
+│  ├─ Task Message (Input + metadata)                                       │
+│  ├─ Result Message (Output + execution info)                              │
+│  ├─ Error Message (Structured error responses)                            │
+│  └─ Event Message (State transitions, progress updates)                   │
+│                                                                           │
+│  TRANSPORT LAYER (HTTP/TLS, gRPC - future)                               │
+│  ├─ HTTP POST/GET with TLS 1.3                                            │
+│  ├─ Authentication (Bearer, API Key, mTLS, OAuth2)                        │
+│  └─ Rate Limiting (Token bucket, backpressure)                            │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+```
+
+### 1.4 A2A in AMS-AI Context
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -54,7 +93,7 @@ AMS-AI implements the **Agent-to-Agent (A2A) Protocol** as the standard for agen
 
 ---
 
-## 2. Agent Card Specification
+## 2. Discovery Layer & Agent Card
 
 ### 2.1 Agent Card Overview
 
@@ -302,6 +341,77 @@ The **Agent Card** is the core identity document for any agent in the A2A protoc
 ```
 
 ---
+
+## 3. A2A Communication Patterns & Error Handling
+
+### 3.1 Core Interaction Models
+
+The A2A Protocol supports multiple communication patterns optimized for different use cases:
+
+#### Model 1: Synchronous RPC (Request-Response)
+- **Use Case:** Real-time responses, short tasks (< 10 seconds)
+- **Pattern:** Client blocks waiting for response
+- **Latency:** 30-200ms p95 target
+- **Reliability:** Connection-level (client retries on network failure)
+- **Best For:** Chat interfaces, immediate feedback needed
+
+#### Model 2: Asynchronous Queue
+- **Use Case:** Long-running tasks (30s - 1 hour)
+- **Pattern:** Client receives task ID immediately, polls for status
+- **Latency:** 100ms p95 for polling endpoint
+- **Reliability:** Task persisted, retriable
+- **Best For:** Batch processing, heavy computations
+
+#### Model 3: Server-Sent Events (Streaming)
+- **Use Case:** Real-time streaming output, progress updates
+- **Pattern:** Server pushes updates to client over persistent connection
+- **Latency:** 50ms p95 for stream updates
+- **Reliability:** Connection-based (reconnect on failure)
+- **Best For:** LLM token streaming, live updates
+
+#### Model 4: Webhook Callbacks
+- **Use Case:** Notification when async task completes
+- **Pattern:** Agent calls back to provided webhook URL
+- **Latency:** Variable (depends on network latency)
+- **Reliability:** Retry policy with exponential backoff
+- **Best For:** Integration with external systems
+
+---
+
+### 3.2 Error Handling
+
+All A2A errors use standardized error response format:
+
+```json
+{
+  "taskId": "task_uuid",
+  "status": "FAILED",
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "Human-readable message",
+    "details": { "field": "error details" },
+    "retryable": true,
+    "retryAfterSeconds": 5
+  }
+}
+```
+
+**Standard Error Codes:**
+
+| Code | Cause | Retryable | Action |
+|------|-------|-----------|--------|
+| INVALID_INPUT | Input doesn't match schema | No | Fix input, resubmit |
+| AUTHENTICATION_FAILED | Auth credentials invalid | No | Verify credentials |
+| RATE_LIMIT_EXCEEDED | Too many requests | Yes | Backoff & retry |
+| SKILL_NOT_FOUND | Requested skill unknown | No | Verify skill exists |
+| AGENT_INTERNAL_ERROR | Unhandled exception | Yes | Retry with backoff |
+| EXTERNAL_SERVICE_ERROR | Dependency failure (LLM down) | Yes | Retry or fallback |
+| TIMEOUT | Task exceeded timeout | Maybe | Increase timeout, retry |
+| RESOURCE_EXHAUSTED | Agent at capacity | Yes | Queue, retry later |
+
+---
+
+## 4. Task Lifecycle & Management
 
 ## 3. A2A Endpoints
 
@@ -728,7 +838,7 @@ nodes:
     skill: "classify-intent"
     input:
       text: "{{ input.query }}"
-    
+
   - id: support
     type: a2a_agent
     agent: "customer-support-agent"
@@ -738,7 +848,7 @@ nodes:
       context: "{{ classify.output }}"
     capabilities:
       streaming: true  # Request streaming response
-      
+
 edges:
   - from: classify
     to: support

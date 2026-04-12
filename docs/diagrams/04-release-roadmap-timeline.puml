@@ -1,0 +1,76 @@
+@startuml AMS-AI-Release-Roadmap
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 11
+skinparam defaultFontStyle bold
+skinparam ArrowColor #00695C
+skinparam ArrowThickness 2
+skinparam BorderColor #263238
+skinparam RectangleBackgroundColor #B2DFDB
+skinparam RectangleBorderColor #00695C
+skinparam RectangleBorderThickness 2
+skinparam PackageBackgroundColor #F5F5F5
+skinparam PackageBorderColor #424242
+skinparam HeadColor #00695C
+skinparam ShadowColor #999999
+skinparam linetype ortho
+
+title AMS-AI: Release Roadmap\nVersion Strategy & Feature Timeline with SLAs & Metrics\n2026 - 2027 (Updated April 12, 2026)
+
+timeline
+    title AMS-AI Platform Release Timeline
+
+    section v0.1.0 Alpha (Q1-Q2 2026)
+        Foundation Phase : crit, a1, 2026-01-15, 2026-03-31
+        : Core Engine
+        : Agent Registry
+        : A2A Protocol Foundation
+        : CLI Basics
+        : SQLite Storage
+
+    section v0.2.0 Alpha (Q2-Q3 2026)
+        Orchestration : crit, a2, 2026-04-01, 2026-06-30
+        : Workflow Builder
+        : Execution Engine
+        : Full A2A Protocol
+        : REST API
+        : PostgreSQL Migration
+        : API Authentication
+
+    section v0.3.0 Beta (Q3-Q4 2026)
+        Applications : crit, a3, 2026-07-01, 2026-09-30
+        : React Web App
+        : Tauri Desktop App
+        : Visual Workflow Canvas
+        : WebSocket Real-time
+        : JWT Authentication
+        : RBAC System
+
+    section v1.0.0 GA (Q4 2026)
+        Production Ready : crit, a4, 2026-10-01, 2026-12-31
+        : Enterprise Hardening
+        : Horizontal Scaling
+        : Prometheus/Grafana
+        : Immutable Audit Logs
+        : SSO (SAML/OIDC)
+        : 99.9% SLA
+
+    section v1.5.0 Enterprise+ (Q1-Q2 2027)
+        Enterprise Features : crit, a5, 2027-01-01, 2027-06-30
+        : Multi-Tenancy
+        : Organization Hierarchy
+        : Data Residency
+        : SOC 2 Type II
+        : Agent Marketplace
+        : 99.95% SLA
+
+    section v2.0.0 Next Gen (Q3-Q4 2027)
+        Advanced AI : crit, a6, 2027-07-01, 2027-12-31
+        : LLM Management
+        : Prompt Engineering
+        : Memory Systems
+        : RAG Pipelines
+        : MCP Integration
+        : 99.99% SLA
+
+@enduml

@@ -1,0 +1,144 @@
+@startuml AMS-AI-High-Level-Architecture
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 11
+skinparam defaultFontStyle bold
+skinparam ArrowColor #0D47A1
+skinparam ArrowThickness 2
+skinparam BorderColor #263238
+skinparam ComponentBackgroundColor #E3F2FD
+skinparam ComponentBorderColor #0D47A1
+skinparam ComponentBorderThickness 2
+skinparam NodeBackgroundColor #BBDEFB
+skinparam NodeBorderColor #0D47A1
+skinparam PackageBackgroundColor #F5F5F5
+skinparam PackageBorderColor #424242
+skinparam PackageBorderThickness 2
+skinparam RectangleBackgroundColor #E0E0E0
+skinparam RectangleBorderColor #212121
+skinparam ShadowColor #999999
+skinparam linetype ortho
+
+title AMS-AI: Multi-Agent Orchestration Platform\nHigh-Level Architecture\nVersion 1.0 (GA) - April 12, 2026
+
+package "Client Applications" #FFFFFF {
+    component [Web Application\n(React 18+)] as WEB
+    component [Desktop Application\n(Tauri)] as DESKTOP
+    component [Command Line Interface\n(Click)] as CLI
+    component [Python SDK] as SDK
+}
+
+package "API & Gateway Layer" #ECF0F1 {
+    component [API Gateway\n(FastAPI)] as GATEWAY
+}
+
+package "Core Services Layer" #F0E5FF {
+    component [Agent Registry\nService] as AGENT_SERVICE
+    component [Orchestration\nService] as ORCH_SERVICE
+    component [Tool\nService] as TOOL_SERVICE
+    component [Deployment\nService] as DEPLOY_SERVICE
+    component [Execution\nEngine] as EXEC_ENGINE
+}
+
+package "Framework Adapter Layer" #FFF5E1 {
+    component [LLM Provider\nAdapters] as LLM_ADAPTERS
+    component [Framework\nAdapters] as FRAMEWORK_ADAPTERS
+    component [Tool\nAdapters] as TOOL_ADAPTERS
+}
+
+package "Infrastructure Layer" #E8F8E8 {
+    database [PostgreSQL\n(Metadata & State)] as DB
+    component [Redis\n(Cache & Session)] as CACHE
+    component [MinIO/S3\n(Storage)] as STORAGE
+    component [Celery Workers\n(Task Queue)] as WORKERS
+}
+
+package "Monitoring & Observability" #FFEBEE {
+    component [Prometheus\n(Metrics)] as METRICS
+    component [Grafana\n(Dashboards)] as DASHBOARDS
+    component [OpenTelemetry\n(Tracing)] as TRACING
+}
+
+package "AgentOps & LLMOps\n(cross-cutting)" #FCE4EC {
+    component [Run & Step\nTelemetry] as AGENTOPS_RUN
+    component [A2A Task\nCorrelation] as AGENTOPS_A2A
+    component [LLMOps Plane\n(v2.0+: eval, cost,\nguardrails, RAG health)] as LLMOPS_PLANE
+}
+
+' Client connections
+WEB --> GATEWAY
+DESKTOP --> GATEWAY
+CLI --> GATEWAY
+SDK --> GATEWAY
+
+' Gateway to Services
+GATEWAY --> AGENT_SERVICE
+GATEWAY --> ORCH_SERVICE
+GATEWAY --> TOOL_SERVICE
+GATEWAY --> DEPLOY_SERVICE
+GATEWAY --> EXEC_ENGINE
+
+' Services to Infrastructure
+AGENT_SERVICE --> DB
+ORCH_SERVICE --> DB
+TOOL_SERVICE --> DB
+DEPLOY_SERVICE --> DB
+EXEC_ENGINE --> DB
+
+AGENT_SERVICE --> CACHE
+ORCH_SERVICE --> CACHE
+TOOL_SERVICE --> CACHE
+
+EXEC_ENGINE --> STORAGE
+DEPLOY_SERVICE --> WORKERS
+
+' Adapters usage
+AGENT_SERVICE --> LLM_ADAPTERS
+AGENT_SERVICE --> FRAMEWORK_ADAPTERS
+TOOL_SERVICE --> TOOL_ADAPTERS
+
+' Monitoring connections
+AGENT_SERVICE -.-> METRICS
+ORCH_SERVICE -.-> METRICS
+EXEC_ENGINE -.-> METRICS
+GATEWAY -.-> METRICS
+
+METRICS --> DASHBOARDS
+GATEWAY -.-> TRACING
+EXEC_ENGINE -.-> TRACING
+
+EXEC_ENGINE -.-> AGENTOPS_RUN
+AGENT_SERVICE -.-> AGENTOPS_A2A
+AGENTOPS_RUN -.-> METRICS
+AGENTOPS_A2A -.-> TRACING
+LLM_ADAPTERS -.-> LLMOPS_PLANE
+LLMOPS_PLANE -.-> METRICS
+
+legend right
+    |Color Explanation|
+    |<#FFFFFF> Client Layer|
+    |<#ECF0F1> API & Gateway|
+    |<#F0E5FF> Core Services|
+    |<#FFF5E1> Adapters|
+    |<#E8F8E8> Infrastructure|
+    |<#FFEBEE> Observability|
+    |<#FCE4EC> AgentOps & LLMOps|
+end legend
+
+note right of GATEWAY
+    **API Gateway**
+    - Authentication & Authorization
+    - Request routing
+    - Rate limiting
+    - OpenAPI documentation
+end note
+
+note bottom of DB
+    **PostgreSQL Database**
+    - Agent definitions & state
+    - Workflow configurations
+    - Execution history
+    - Deployment records
+end note
+
+@enduml

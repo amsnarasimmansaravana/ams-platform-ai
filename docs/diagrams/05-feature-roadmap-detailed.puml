@@ -1,0 +1,143 @@
+@startuml AMS-AI-Feature-Roadmap
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 11
+skinparam defaultFontStyle bold
+skinparam ArrowColor #6A1B9A
+skinparam ArrowThickness 2
+skinparam BorderColor #263238
+skinparam ComponentBackgroundColor #E1BEE7
+skinparam ComponentBorderColor #6A1B9A
+skinparam ComponentBorderThickness 2
+skinparam PackageBackgroundColor #F5F5F5
+skinparam PackageBorderColor #424242
+skinparam PackageBorderThickness 2
+skinparam ShadowColor #999999
+skinparam defaultFontSize 10
+skinparam ArrowColor #2E5090
+skinparam BorderColor #34495E
+skinparam RectBackgroundColor #E8F4F8
+skinparam RectBorderColor #2E5090
+
+title AMS-AI: Feature Roadmap by Version\nComprehensive Feature Matrix with SLA Commitments\n(Updated April 12, 2026)
+
+' Version columns
+package "v0.1.0 Alpha\nFoundation" #FFE4E1 {
+    rectangle "**Core Engine**\n• Agent Models\n• A2A Protocol Models\n• LLM Adapters\n• Basic CLI" as V01_CORE
+
+    rectangle "**Agent Registry**\n• CRUD Operations\n• Capability Declaration\n• Version Management" as V01_AGENT
+
+    rectangle "**Storage**\n• SQLite (Dev)\n• Basic Schema\n• Logging" as V01_STORAGE
+}
+
+package "v0.2.0 Alpha\nOrchestration" #FFE4E6 {
+    rectangle "**Orchestration**\n• Workflow Definitions\n• Sequential Pattern\n• Parallel Pattern\n• Conditional Pattern\n• Workflow Validation" as V02_ORCH
+
+    rectangle "**A2A Protocol**\n• Full Endpoints\n• External Agent Reg\n• Discovery Service\n• SSE Streaming" as V02_A2A
+
+    rectangle "**REST API**\n• FastAPI Framework\n• Agent Endpoints\n• Tool Endpoints\n• Workflow Endpoints\n• Deployment Mgmt" as V02_API
+
+    rectangle "**Data Layer**\n• PostgreSQL\n• Migrations\n• Enhanced Schema\n• Repositories" as V02_DATA
+}
+
+package "v0.3.0 Beta\nApplications" #FFE9EC {
+    rectangle "**Web UI**\n• React 18\n• Dashboard\n• Agent Manager\n• Workflow Builder\n• Execution Monitor" as V03_WEB
+
+    rectangle "**Desktop App**\n• Tauri (Windows/Mac/Linux)\n• Native Integration\n• Offline Mode\n• System Tray" as V03_DESKTOP
+
+    rectangle "**Security**\n• JWT Auth\n• RBAC\n• API Keys" as V03_SEC
+
+    rectangle "**Patterns**\n• Loop Pattern\n• Router Pattern\n• Error Handling" as V03_PATTERNS
+}
+
+package "v1.0.0 GA\nEnterprise" #FFEEEF {
+    rectangle "**Production Ready**\n• Hardening\n• High Availability\n• Load Balancing\n• Recovery Procedures" as V10_PROD
+
+    rectangle "**Monitoring**\n• Prometheus\n• Grafana Dashboards\n• OpenTelemetry\n• SLA Metrics" as V10_MON
+
+    rectangle "**Security**\n• SSO (SAML/OIDC)\n• Vault Integration\n• Audit Logging\n• TLS 1.3" as V10_SECURITY
+
+    rectangle "**Frameworks**\n• LangChain\n• AutoGen\n• Ollama Support" as V10_FW
+
+    rectangle "**SLA**: 99.9%\n**Latency**: <200ms\n**Throughput**: 5000+ workflows" as V10_SLA
+}
+
+package "v1.5.0 Enterprise+\nMulti-Tenant" #FFF3F5 {
+    rectangle "**Multi-Tenancy**\n• Tenant Isolation\n• Organization Mgmt\n• SCIM Provisioning\n• Resource Quotas" as V15_MULTI
+
+    rectangle "**Compliance**\n• SOC 2 Type II\n• GDPR Toolkit\n• Data Residency\n• FedRAMP Ready" as V15_COMPLIANCE
+
+    rectangle "**Marketplace**\n• Agent Listing\n• Workflow Templates\n• Monetization\n• Ratings/Reviews" as V15_MARKET
+
+    rectangle "**SLA**: 99.95%\n**Availability**: Multi-region\n**Users**: Unlimited tenants" as V15_SLA
+}
+
+package "v2.0.0 Next Gen\nAdvanced AI" #FFF8FA {
+    rectangle "**LLM Management**\n• Multi-provider\n• Model Versioning\n• Cost Tracking\n• Failover Logic" as V20_LLM
+
+    rectangle "**Prompt Mgmt**\n• Template Library\n• A/B Testing\n• Optimization\n• Token Analysis" as V20_PROMPT
+
+    rectangle "**Memory & RAG**\n• RAG Pipelines\n• Vector DBs\n• Semantic Search\n• Context Mgmt" as V20_MEMORY
+
+    rectangle "**MCP Integration**\n• Resource Mgmt\n• Discovery\n• Client Library\n• Caching" as V20_MCP
+
+    rectangle "**Tools v2.0**\n• Dependencies\n• Analytics\n• Marketplace\n• Sandboxing" as V20_TOOLS
+
+    rectangle "**SLA**: 99.99%\n**Latency**: <100ms\n**Features**: 100+\n**Supported LLMs**: 15+" as V20_SLA
+}
+
+' Connections showing progression
+V01_CORE --> V02_ORCH
+V02_ORCH --> V03_WEB
+V03_WEB --> V10_PROD
+V10_PROD --> V15_MULTI
+V15_MULTI --> V20_LLM
+
+' Feature inheritance indicators
+note right of V01_CORE
+    **Foundation**
+    All subsequent versions
+    build upon these components
+end note
+
+note right of V02_ORCH
+    **Orchestration**
+    Core of platform value
+    extended in v1.0+
+end note
+
+note right of V03_WEB
+    **User Experience**
+    Enterprise-grade UI
+    maintained in v1.0+
+end note
+
+note right of V10_PROD
+    **Enterprise Grade**
+    Production deployment
+    begins here
+end note
+
+note right of V15_MULTI
+    **Global Ready**
+    Multi-tenant operations
+    with compliance
+end note
+
+note right of V20_LLM
+    **AI Capabilities**
+    Next-generation platform
+    with advanced AI features
+end note
+
+legend right
+    |Color Legend|
+    |<#FFE4E1> v0.1.0 (Alpha)|
+    |<#FFE4E6> v0.2.0 (Alpha)|
+    |<#FFE9EC> v0.3.0 (Beta)|
+    |<#FFEEEF> v1.0.0 (GA)|
+    |<#FFF3F5> v1.5.0 (Enterprise+)|
+    |<#FFF8FA> v2.0.0 (Next Gen)|
+end legend
+
+@enduml

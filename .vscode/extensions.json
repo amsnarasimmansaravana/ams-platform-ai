@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "benkosoftware.plantumlviewer",
+    "github.copilot",
+    "github.copilot-chat",
+    "esbenp.prettier-vscode",
+    "mhutchie.git-graph",
+    "eamodio.gitlens",
+    "streetsidesoftware.code-spell-checker",
+    "markdownlint.markdownlint"
+  ]
+}

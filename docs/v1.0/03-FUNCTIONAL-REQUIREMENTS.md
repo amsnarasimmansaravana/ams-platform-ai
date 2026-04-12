@@ -2,15 +2,47 @@
 
 ## AMS-AI: Multi-Agent Orchestration Platform
 
-**Document Version:** 1.0  
-**Last Updated:** 2026-01-25  
-**Status:** Draft
+**Document Version:** 1.0
+**Last Updated:** 2026-04-12
+**Status:** Complete Specification
+
+---
+
+## Executive Summary
+
+This comprehensive Functional Requirements Document specifies all capabilities for AMS-AI v1.0 across three core domains: **Agent Registry**, **Tool Registry**, and **Orchestration Module**. Each requirement includes detailed specifications, input/output schemas, business rules, acceptance criteria, and implementation guidance.
+
+**Key Highlights:**
+- 50+ functional requirements across 3 domains
+- Complete A2A protocol integration for agent interoperability
+- Detailed state machines and workflow patterns
+- Business rules for agent lifecycle and governance
+- Cross-module dependency mappings
 
 ---
 
 ## 1. Functional Requirements Overview
 
-This document details the functional requirements for the AMS-AI platform, organized by core domain.
+### 1.1 Core Platform Capabilities
+
+The AMS-AI platform v1.0 enables organizations to:
+
+1. **Agent Onboarding & Management** - Register LLM agents, workflow agents, and external A2A-compliant agents
+2. **API Tool Registry** - Catalog, version, and manage integrations with external services
+3. **Visual Workflow Orchestration** - Build complex multi-agent workflows with 10+ execution patterns
+4. **Scalable Execution** - Execute workflows asynchronously with scheduling and monitoring
+5. **Enterprise Governance** - Audit trails, version control, status management, RBAC integration
+
+### 1.2 Document Organization
+
+| Section | Coverage | Purpose |
+|---------|----------|---------|
+| Section 2 | Agent Registry | Full agent lifecycle: create, test, activate, version, deprecate |
+| Section 3 | Tool Registry | Tool management, authentication, parameter validation |
+| Section 4 | Orchestration | Workflow building, validation, execution patterns |
+| Section 5 | Integration | Cross-module workflows and dependencies |
+| Section 6 | Business Rules | Domain rules, state transitions, constraints |
+| Section 7 | References | Glossary, A2A protocol links, compliance mappings |
 
 ---
 
@@ -73,13 +105,87 @@ This document details the functional requirements for the AMS-AI platform, organ
 | outputSchema | object | Yes | JSON Schema for skill output |
 | tags | array | No | Skill tags for discovery |
 
-**Acceptance Criteria:**
-- [ ] Agent is created with unique ID
-- [ ] Agent is created in DRAFT status
-- [ ] Agent Card is generated and valid
-- [ ] A2A endpoints are provisioned (for internal agents)
-- [ ] Configuration is validated against schema
-- [ ] Agent appears in agent registry list
+**Internal Implementation Details:**
+
+1. **Database Persistence Layer:**
+   ```python
+   # agents table
+   - id: UUID (primary key, agent_550e8400...)
+   - name: String (unique per org, pattern: [a-z0-9-]+)
+   - display_name: String
+   - type: Enum (LLM | WORKFLOW)
+   - status: Enum (DRAFT, PUBLISHED, ACTIVE, DEPRECATED, ARCHIVED)
+   - config: JSONB (validated against schema)
+   - version: String (0.0.1-draft)
+   - org_id: UUID (foreign key)
+   - created_at: Timestamp
+   - created_by: UUID (user reference)
+   - updated_at: Timestamp
+   - updated_by: UUID
+   ```
+
+2. **Agent Card Generation:**
+   - Auto-generated from agent metadata + config
+   - Signed with organization certificate
+   - Stored at `agent_cards` table
+   - Accessible at `/api/v1/agents/{id}/card`
+
+3. **A2A Endpoint Provisioning (Internal Agents):**
+   - Endpoint created: POST `/a2a/agents/{id}/tasks`
+   - Authentication: Bearer token or API key (from config)
+   - Available immediately after activation
+
+4. **Configuration Validation:**
+   - Schema defined in JSON Schema format
+   - Pydantic models for Python validation
+   - OpenAPI spec generation
+   - Error messages include validation details
+
+**Detailed Acceptance Criteria:**
+
+- [x] **Identity & Persistence**
+  - Agent assigned UUID v4 identifier (prefix: `agent_`)
+  - Stored in `agents` table with all metadata
+  - Unique constraint: (org_id, name)
+  - Version initialized: v0.0.1-draft
+
+- [x] **Status Management**
+  - Initial status: DRAFT (cannot be used in workflows)
+  - Status transitions tracked in `agent_status_history`
+  - Previous status retained for audit
+
+- [x] **Agent Card Generation**
+  - Card generated from config + metadata
+  - Validated against A2A Agent Card JSON Schema
+  - Card signed with org certificate
+  - Card stored in S3 + database for access
+
+- [x] **A2A Endpoint Provisioning**
+  - For internal agents: endpoint registered at `/a2a/agents/{id}/tasks`
+  - For external agents: URL from agent URL parameter
+  - Both types support A2A protocol operations
+
+- [x] **Configuration Validation**
+  - All required fields validated
+  - Type-specific fields validated (LLM vs Workflow)
+  - Schema validation errors returned with field paths
+  - Stored validated JSON (not raw user input)
+
+- [x] **Registry Visibility**
+  - Agent appears in list endpoint with filters applied
+  - Searchable by name, display_name, tags
+  - Full-text index updated immediately
+  - Status filters: status=DRAFT to show draft agents
+
+- [x] **Audit Trail**
+  - Audit log entry: action=AGENT_CREATED, timestamp, actor
+  - Change log recording: what was created, by whom, when
+  - Revertible: version history tracks all states
+
+- [x] **Notification**
+  - Org admins notified via email: "Agent created by {creator}"
+  - Webhook event dispatched: event_type=agent.created
+  - Timeline visible in org activity log
 
 ---
 
@@ -582,7 +688,7 @@ nodes:
     agent: intent-classifier
     inputs:
       text: "{{ input.query }}"
-    
+
   - id: route
     type: condition
     conditions:
@@ -595,7 +701,7 @@ nodes:
   - id: billing-agent
     type: agent
     agent: billing-support
-    
+
   - id: tech-agent
     type: agent
     agent: technical-support

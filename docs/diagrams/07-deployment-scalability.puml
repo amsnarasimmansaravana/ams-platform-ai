@@ -1,0 +1,196 @@
+@startuml AMS-AI-Deployment-Scalability
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 11
+skinparam defaultFontStyle bold
+skinparam ArrowColor #F57C00
+skinparam ArrowThickness 2
+skinparam BorderColor #263238
+skinparam ComponentBackgroundColor #FFE0B2
+skinparam ComponentBorderColor #F57C00
+skinparam ComponentBorderThickness 2
+skinparam PackageBackgroundColor #F5F5F5
+skinparam PackageBorderColor #424242
+skinparam PackageBorderThickness 2
+skinparam ShadowColor #999999
+
+title AMS-AI: Deployment Architecture & Scalability
+
+header
+  Updated: April 12, 2026 | SLA Tiers: 95% to 99.99% Uptime
+  Deployment Modes: Dev, Staging, Production Standard, Enterprise
+end header
+
+' Global Distribution
+package "Global Distribution (v1.5+)" #E8F4F8 {
+    rectangle "Region 1: US-East\n(Primary)" as REGION1
+    rectangle "Region 2: EU-West\n(Secondary)" as REGION2
+    rectangle "Region 3: APAC\n(Tertiary)" as REGION3
+    rectangle "Global Load Balancer" as GLB
+    GLB --> REGION1
+    GLB --> REGION2
+    GLB --> REGION3
+}
+
+package "Per-Region Architecture (HA Setup)" #FFE4E1 {
+
+    ' Load Balancer
+    rectangle "**Load Balancer**\n(Nginx/HAProxy)\nTLS Termination" as LB
+
+    ' API Cluster
+    package "API Service Cluster" #F0E5FF {
+        rectangle "API Pod 1\n(FastAPI)" as API1
+        rectangle "API Pod 2\n(FastAPI)" as API2
+        rectangle "API Pod N\n(FastAPI)" as APIN
+    }
+
+    ' Worker Cluster
+    package "Worker Service Cluster" #E8F8E8 {
+        rectangle "Worker Pod 1\n(Celery)" as WORKER1
+        rectangle "Worker Pod 2\n(Celery)" as WORKER2
+        rectangle "Worker Pod N\n(Celery)" as WORKERN
+        rectangle "**Task Queue**\n(RabbitMQ/Redis)" as TASK_Q
+    }
+
+    ' Data Layer
+    package "Data Layer (Replicated)" #E8F4F8 {
+        rectangle "**Primary DB**\n(PostgreSQL Master)\nwith pgvector" as DB_PRIMARY
+        rectangle "**Replica 1**\n(PostgreSQL Read)" as DB_REPLICA1
+        rectangle "**Replica 2**\n(PostgreSQL Read)" as DB_REPLICA2
+        rectangle "**WAL Archive**\n(Backup)" as WAL_ARCHIVE
+    }
+
+    ' Cache & Vector DB
+    package "Caching & Vector Storage" #FFFFCC {
+        rectangle "**Redis Cluster**\n(Session + Cache)\n3+ nodes" as REDIS_CLUSTER
+        rectangle "**Vector DB Cluster**\n(Milvus/Weaviate)\nDistributed" as VECTOR_CLUSTER
+    }
+
+    ' Storage Layer
+    rectangle "**Object Storage**\n(MinIO HA)\nwith replication" as OBJ_STORE
+
+    ' Monitoring
+    package "Monitoring & Observability" #FFEBEE {
+        rectangle "**Prometheus**\n(Metrics)" as PROM
+        rectangle "**Loki**\n(Logs)" as LOKI
+        rectangle "**Jaeger**\n(Tracing)" as JAEGER
+        rectangle "**Grafana**\n(Dashboards)" as GRAFANA
+    }
+}
+
+' Horizontal Scaling Pattern
+package "Horizontal Scaling Pattern" #F5F5F5 {
+    rectangle "**Auto-Scaling Group**\n• Min: 2 replicas\n• Max: 20 replicas\n• Metric: CPU > 70%" as ASG
+
+    rectangle "**Load Balancing**\n• Round-robin\n• Health checks (15s)\n• Connection draining" as LB_POLICY
+
+    rectangle "**Pod Resources**\n• CPU: 1-2 cores per pod\n• Memory: 1-2 GB per pod\n• requests/limits set" as POD_RES
+}
+
+' Disaster Recovery
+package "Disaster Recovery (RPO/RTO)" #FFF5E1 {
+    rectangle "**RPO: 0 data loss**\n• Synchronous replication\n• WAL streaming\n• Multi-region failover" as RPO
+
+    rectangle "**RTO: < 1 hour (v1.0)**\n**RTO: < 15 min (v2.0)**\n• Automated failover\n• DNS switch\n• Connection retry logic" as RTO
+}
+
+' Deployment Strategy
+package "Rolling Deployment Strategy" #FFE9EC {
+    rectangle "**v0.x: Canary**\n• 10% traffic → New version\n• Monitor for 1 hour\n• If OK: 100% migration" as CANARY
+
+    rectangle "**v1.0+: Blue-Green**\n• Full parallel deployment\n• Instant switchover\n• Quick rollback available" as BLUEGREEN
+
+    rectangle "**v1.5+: Feature Flags**\n• Gradual rollout\n• Per-tenant enablement\n• A/B testing support" as FEATURE_FLAGS
+}
+
+' Security Zones
+package "Security Zones" #FFFFCC {
+    rectangle "**DMZ Zone**\n• Load Balancers\n• WAF\n• DDoS Protection" as DMZ
+
+    rectangle "**Application Zone**\n• API & Workers\n• Network policies\n• Service mesh (optional)" as APP_ZONE
+
+    rectangle "**Data Zone**\n• Database servers\n• Backup storage\n• Encryption at rest" as DATA_ZONE
+}
+
+' Connections
+LB --> API1
+LB --> API2
+LB --> APIN
+
+API1 --> DB_PRIMARY
+API2 --> DB_PRIMARY
+APIN --> DB_PRIMARY
+
+TASK_Q --> WORKER1
+TASK_Q --> WORKER2
+TASK_Q --> WORKERN
+
+DB_PRIMARY --> DB_REPLICA1
+DB_PRIMARY --> DB_REPLICA2
+DB_PRIMARY --> WAL_ARCHIVE
+
+WORKER1 --> REDIS_CLUSTER
+WORKER1 --> VECTOR_CLUSTER
+API1 --> REDIS_CLUSTER
+API1 --> VECTOR_CLUSTER
+
+OBJ_STORE -.-> WORKER1
+OBJ_STORE -.-> API1
+
+API1 -.-> PROM
+WORKER1 -.-> PROM
+DB_PRIMARY -.-> PROM
+
+API1 -.-> LOKI
+WORKER1 -.-> LOKI
+
+PROM --> GRAFANA
+LOKI --> GRAFANA
+JAEGER --> GRAFANA
+
+' Notes
+note right of DB_PRIMARY
+    **Primary Database**
+    - ACID compliance
+    - Point-in-time recovery
+    - Automated backups
+    - pgvector for embeddings
+end note
+
+note right of REDIS_CLUSTER
+    **Cache Strategy**
+    - Session storage (TTL: 24h)
+    - Query results (TTL: 5m)
+    - Rate limit counters
+    - Pub/Sub for events
+end note
+
+note bottom of ASG
+    **Scaling Metrics**
+    - CPU: 70% threshold
+    - Memory: 80% threshold
+    - Queue depth: 100+ items
+    - Response time: >500ms
+end note
+
+note bottom of PROM
+    **Key Metrics Tracked**
+    - Request latency (p50, p95, p99)
+    - Error rate (4xx, 5xx)
+    - Active connections
+    - Queue depth
+    - Database connections
+    - Cache hit ratio
+end note
+
+legend right
+    |SLA Targets (by version)|
+    |<#FFE4E1> v0.x: Best effort|
+    |<#FFE4E6> v1.0: 99.9%|
+    |<#FFFFCC> v1.5: 99.95%|
+    |<#E8F8E8> v2.0: 99.99%|
+    |Solid line: synchronous|
+    |Dotted line: asynchronous|
+end legend
+
+@enduml

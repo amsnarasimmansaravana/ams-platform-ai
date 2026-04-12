@@ -12,16 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Initial documentation structure (v1.0)
-  - Project Overview document
-  - Business Requirements Document (BRD)
-  - Functional Requirements Document (FRD)
-  - Technical Architecture Document
-  - Version Roadmap
-  - Glossary of Terms
+- `10-LLM-AGENT-OPERATIONS.md` — LLMOps and AgentOps capability matrix, requirements (OPS-AGT-*, OPS-LLM-*), and diagram references
+- Documentation navigation refresh in `docs/README.md` (full tree: `context/`, `diagrams/`, master context files)
+- Cross-links from `COMPLETE-PRODUCT-CONTEXT.md`, `CONTEXT-FILE-INDEX.md`, and `context/*` master documents to the operations spec
 
 ### Changed
-- N/A
+- `06-GLOSSARY.md` — entries for **AgentOps** and **LLMOps**
+- `09-A2A-PROTOCOL-SPECIFICATION.md` — removed duplicate §2.1 heading
 
 ### Deprecated
 - N/A

@@ -2,9 +2,9 @@
 
 ## AMS-AI: Multi-Agent Orchestration Platform
 
-**Document Version:** 1.0  
-**Last Updated:** 2026-01-25  
-**Status:** Draft
+**Document Version:** 1.1  
+**Last Updated:** 2026-04-13  
+**Status:** Approved
 
 ---
 
@@ -30,6 +30,9 @@ A JSON document that describes an agent's identity, capabilities, skills, authen
 
 ### Agent Registry
 The central repository for managing agent definitions, configurations, and lifecycle states.
+
+### AgentOps
+Operational practices and platform capabilities for running multi-agent systems in production: run and step telemetry, A2A task correlation, reliability SLOs, debugging/replay, and tool health. Defined in [10-LLM-AGENT-OPERATIONS.md](./10-LLM-AGENT-OPERATIONS.md).
 
 ### API Gateway
 The entry point for all API requests, handling routing, authentication, and rate limiting.
@@ -130,6 +133,9 @@ An AI model trained on large text datasets capable of understanding and generati
 
 ### LLM Agent
 An agent that uses an LLM for its core reasoning and response generation.
+
+### LLMOps
+Operations for the LLM and AI stack on the platform: model and prompt lifecycle, cost and token attribution, evaluation hooks, guardrails, and RAG/MCP health (primarily v2.0+). See [10-LLM-AGENT-OPERATIONS.md](./10-LLM-AGENT-OPERATIONS.md).
 
 ### Loop Pattern
 An orchestration pattern that repeats execution until a condition is met.
@@ -304,3 +310,4 @@ See **Execution Engine**.
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
 | 1.0 | 2026-01-25 | - | Initial draft |
+| 1.1 | 2026-04-13 | - | Added AgentOps and LLMOps |

@@ -1,0 +1,45 @@
+{
+  // PlantUML Configuration
+  "plantuml.render": "PlantUMLServer",
+  "plantuml.server": "https://www.plantuml.com/plantuml/svg",
+  "plantuml.exportFormat": "svg",
+  "plantuml.exportOutDir": "${fileDirname}/exports",
+
+  // Editor Configuration
+  "[plaintext]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.wordWrap": "on",
+    "editor.formatOnSave": true
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.trimAutoWhitespace": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "editor.wordWrap": "on",
+
+  // File associations for documentation
+  "files.associations": {
+    "*.puml": "plantuml",
+    "*.plantuml": "plantuml"
+  },
+
+  // Exclude patterns
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true
+  },
+
+  // Git Configuration
+  "git.ignoreLimitWarning": true,
+
+  // Search Configuration
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.git": true
+  }
+}

@@ -1,0 +1,85 @@
+# Microservices stack: API Gateway + domain services + Postgres + Redis.
+# Build context is repository root (see dockerfile paths).
+#
+# Usage (from repo root):
+#   docker compose up --build
+# Gateway: http://localhost:8000  → proxies /api/v1/* to internal services
+
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: services/gateway/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      AMS_SERVICE_NAME: gateway
+      AMS_LOG_JSON: "true"
+      AMS_AGENT_SERVICE_URL: http://agent-service:8000
+      AMS_ORCHESTRATION_SERVICE_URL: http://orchestration-service:8000
+      AMS_TOOL_SERVICE_URL: http://tool-service:8000
+      AMS_EXECUTION_SERVICE_URL: http://execution-service:8000
+    depends_on:
+      - agent-service
+      - orchestration-service
+      - tool-service
+      - execution-service
+
+  agent-service:
+    build:
+      context: .
+      dockerfile: services/agent-service/Dockerfile
+    expose:
+      - "8000"
+    environment:
+      AMS_SERVICE_NAME: agent-service
+      AMS_LOG_JSON: "true"
+
+  orchestration-service:
+    build:
+      context: .
+      dockerfile: services/orchestration-service/Dockerfile
+    expose:
+      - "8000"
+    environment:
+      AMS_SERVICE_NAME: orchestration-service
+      AMS_LOG_JSON: "true"
+
+  tool-service:
+    build:
+      context: .
+      dockerfile: services/tool-service/Dockerfile
+    expose:
+      - "8000"
+    environment:
+      AMS_SERVICE_NAME: tool-service
+      AMS_LOG_JSON: "true"
+
+  execution-service:
+    build:
+      context: .
+      dockerfile: services/execution-service/Dockerfile
+    expose:
+      - "8000"
+    environment:
+      AMS_SERVICE_NAME: execution-service
+      AMS_LOG_JSON: "true"
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ams
+      POSTGRES_PASSWORD: ams
+      POSTGRES_DB: ams_ai
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  pgdata: {}

@@ -1,0 +1,245 @@
+@startuml AMS-AI-Technical-Architecture-DeepDive
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 11
+skinparam defaultFontStyle bold
+skinparam ArrowColor #0D47A1
+skinparam ArrowThickness 2
+skinparam BorderColor #263238
+skinparam ComponentBackgroundColor #E3F2FD
+skinparam ComponentBorderColor #0D47A1
+skinparam ComponentBorderThickness 2
+skinparam DatabaseBackgroundColor #C8E6C9
+skinparam DatabaseBorderColor #1B5E20
+skinparam PackageBackgroundColor #F5F5F5
+skinparam PackageBorderColor #424242
+skinparam PackageBorderThickness 2
+skinparam ShadowColor #999999
+
+title AMS-AI Technical Architecture Deep-Dive
+
+header
+  Updated: April 12, 2026 | Status: Production Ready
+  Coverage: 6-tier architecture, A2A protocol, deployment patterns
+end header
+
+' Client Layer
+package "Client Tier" #F5F5F5 {
+    component [Web UI\n(React 18+)] as WEB_UI
+    component [Desktop App\n(Tauri)] as DESKTOP_UI
+    component [CLI Tools\n(Click)] as CLI_TOOLS
+    component [Python SDK\n(asyncio)] as PY_SDK
+}
+
+' API Layer
+package "API & Middleware Tier" #ECF0F1 {
+    component [FastAPI\nApplication] as FAST_API
+    component [Authentication\nMiddleware] as AUTH_MW
+    component [Authorization\nMiddleware] as AUTHZ_MW
+    component [Logging\nMiddleware] as LOG_MW
+    component [Error Handler\nMiddleware] as ERR_MW
+}
+
+' Service Layer - Core (v1.0)
+package "Core Services Tier (v1.0)" #F0E5FF {
+    component [Agent Registry\nService\n(CRUD + A2A)] as AGENT_SVC
+    component [Tool Registry\nService\n(CRUD + Discovery)] as TOOL_SVC
+    component [Workflow\nService\n(Builder + Validator)] as WORKFLOW_SVC
+    component [Deployment\nService\n(Lifecycle)] as DEPLOY_SVC
+    component [Execution\nService\n(Engine + Scheduler)] as EXEC_SVC
+}
+
+' Service Layer - AI (v2.0)
+package "AI Services Tier (v2.0)" #FFF0F5 {
+    component [LLM Model\nManagement\n(Multi-provider)] as LLM_SVC
+    component [Prompt\nManagement\n(Templates + A/B)] as PROMPT_SVC
+    component [Memory & Context\nManagement\n(Short/Long term)] as MEMORY_SVC
+    component [RAG Pipeline\nService\n(Vector + Semantic)] as RAG_SVC
+    component [MCP Integration\nService\n(Resource mgmt)] as MCP_SVC
+}
+
+' Adapter Layer
+package "Adapter & Integration Tier" #FFF5E1 {
+    component [LLM Providers\n(OpenAI, Anthropic,\nAzure, Local)] as LLM_ADAPTER
+    component [Framework Adapters\n(LangChain, AutoGen,\nCrewAI)] as FW_ADAPTER
+    component [Tool Adapters\n(HTTP, Database,\nFilesystem)] as TOOL_ADAPTER
+    component [Vector DB\nAdapters\n(Milvus, Weaviate,\nPinecone, Qdrant)] as VECTOR_ADAPTER
+    component [MCP Client\n(SSE, Stdio)] as MCP_ADAPTER
+}
+
+' Domain/Business Logic Layer
+package "Domain Logic Tier" #E8F8E8 {
+    component [A2A Protocol\nHandler\n(Agent-to-Agent)] as A2A_HANDLER
+    component [Workflow\nValidator\n(Graph + Semantics)] as WF_VALIDATOR
+    component [Orchestration\nEngine\n(Patterns + Execution)] as ORCH_ENGINE
+    component [Task Scheduler\n(Celery Integration)] as SCHEDULER
+    component [Execution Context\nManager\n(State + Variables)] as CONTEXT_MGR
+}
+
+' Data Access Tier
+package "Data Access Tier" #E8F4F8 {
+    component [Agent\nRepository] as AGENT_REPO
+    component [Tool\nRepository] as TOOL_REPO
+    component [Workflow\nRepository] as WF_REPO
+    component [Run\nRepository] as RUN_REPO
+    component [Memory\nRepository] as MEM_REPO
+}
+
+' Infrastructure Tier
+package "Infrastructure Tier" #E8F8E8 {
+    database [PostgreSQL 15+\n(Metadata Store)\nwith pgvector] as PG_DB
+    component [Redis 7+\n(Cache + Session\n+ Pub/Sub)] as REDIS
+    component [Message Queue\n(RabbitMQ/Celery)] as MSG_QUEUE
+    component [Object Storage\n(MinIO/S3)] as OBJ_STORAGE
+    database [Vector Databases\n(Milvus, Weaviate,\nPinecone, Qdrant)] as VECTOR_DB
+}
+
+' Observability Tier
+package "Observability Tier" #FFEBEE {
+    component [Prometheus\nExporter] as PROM_EXP
+    component [OpenTelemetry\nTracer] as OTEL_TRACER
+    component [Structured\nLogger\n(JSON)] as LOGGER
+    component [Metrics\nAggregator] as METRICS_AGG
+    component [AgentOps\n(Run / Step / A2A)] as AGENT_OPS_COMP
+    component [LLMOps\n(v2.0+ signals)] as LLM_OPS_COMP
+}
+
+' External Systems
+package "External Systems" #F0F0F0 {
+    component [Prometheus\nServer] as PROM_SRV
+    component [Grafana\nDashboards] as GRAFANA
+    component [Jaeger/Datadog\nBackend] as TRACE_SRV
+    component [ELK/Loki\nStack] as LOG_STACK
+}
+
+' Connections - Client to API
+WEB_UI --> FAST_API
+DESKTOP_UI --> FAST_API
+CLI_TOOLS --> FAST_API
+PY_SDK --> FAST_API
+
+' API to Middleware
+FAST_API --> AUTH_MW
+FAST_API --> AUTHZ_MW
+FAST_API --> LOG_MW
+FAST_API --> ERR_MW
+
+' Middleware to Services
+AUTH_MW --> AGENT_SVC
+AUTHZ_MW --> AGENT_SVC
+AUTHZ_MW --> TOOL_SVC
+AUTHZ_MW --> WORKFLOW_SVC
+AUTHZ_MW --> DEPLOY_SVC
+
+' Core Services interconnections (v1.0)
+AGENT_SVC --> WORKFLOW_SVC: "Agent references"
+TOOL_SVC --> WORKFLOW_SVC: "Tool references"
+WORKFLOW_SVC --> DEPLOY_SVC: "Workflow deployment"
+DEPLOY_SVC --> EXEC_SVC: "Start execution"
+EXEC_SVC --> AGENT_SVC: "Invoke agents"
+EXEC_SVC --> TOOL_SVC: "Invoke tools"
+
+' AI Services to Core Services (v2.0)
+LLM_SVC --> AGENT_SVC: "Model selection"
+PROMPT_SVC --> AGENT_SVC: "Prompt templates"
+MEMORY_SVC --> EXEC_SVC: "Context injection"
+RAG_SVC --> MEMORY_SVC: "Knowledge retrieval"
+MCP_SVC --> TOOL_SVC: "Tool discovery"
+
+' Services to Adapter Layer
+AGENT_SVC --> LLM_ADAPTER
+AGENT_SVC --> FW_ADAPTER
+TOOL_SVC --> TOOL_ADAPTER
+RAG_SVC --> VECTOR_ADAPTER
+MCP_SVC --> MCP_ADAPTER
+
+' Domain Logic
+EXEC_SVC --> ORCH_ENGINE: "Execute orchestration"
+ORCH_ENGINE --> SCHEDULER: "Schedule tasks"
+ORCH_ENGINE --> CONTEXT_MGR: "Manage state"
+WORKFLOW_SVC --> WF_VALIDATOR: "Validate workflow"
+AGENT_SVC --> A2A_HANDLER: "A2A communication"
+
+' Data Access
+AGENT_SVC --> AGENT_REPO
+TOOL_SVC --> TOOL_REPO
+WORKFLOW_SVC --> WF_REPO
+EXEC_SVC --> RUN_REPO
+MEMORY_SVC --> MEM_REPO
+
+' Repository to Database
+AGENT_REPO -.-> PG_DB
+TOOL_REPO -.-> PG_DB
+WF_REPO -.-> PG_DB
+RUN_REPO -.-> PG_DB
+MEM_REPO -.-> VECTOR_DB
+
+' Infrastructure connections
+AGENT_SVC --> REDIS: "Cache"
+TOOL_SVC --> REDIS: "Cache"
+EXEC_SVC --> MSG_QUEUE: "Task queue"
+DEPLOY_SVC --> OBJ_STORAGE: "Store artifacts"
+
+' Observability
+AGENT_SVC -.-> PROM_EXP: "Metrics"
+EXEC_SVC -.-> PROM_EXP: "Metrics"
+FAST_API -.-> OTEL_TRACER: "Trace"
+EXEC_SVC -.-> LOGGER: "Logs"
+EXEC_SVC -.-> AGENT_OPS_COMP
+AGENT_OPS_COMP -.-> OTEL_TRACER
+AGENT_OPS_COMP -.-> PROM_EXP
+LLM_SVC -.-> LLM_OPS_COMP
+LLM_OPS_COMP -.-> PROM_EXP
+PROM_EXP --> METRICS_AGG
+METRICS_AGG --> PROM_SRV
+PROM_SRV --> GRAFANA
+OTEL_TRACER --> TRACE_SRV
+LOGGER --> LOG_STACK
+
+note right of LLM_SVC
+    v2.0 LLM Management
+    - Multi-provider failover
+    - Cost tracking
+    - Performance metrics
+    - Model versioning
+end note
+
+note right of RAG_SVC
+    v2.0 RAG Pipeline
+    - Document ingestion
+    - Semantic search
+    - Context window mgmt
+    - Knowledge base ops
+end note
+
+note bottom of PG_DB
+    Primary Data Store
+    - ACID compliance
+    - JSON support
+    - pgvector extension
+    - Audit logging
+end note
+
+note bottom of VECTOR_DB
+    Vector Data Store
+    - Document embeddings
+    - Semantic search
+    - Performance optimized
+end note
+
+legend right
+    |Color Explanation|
+    |<#F5F5F5> Client Tier|
+    |<#ECF0F1> API Tier|
+    |<#F0E5FF> Core Services (v1.0)|
+    |<#FFF0F5> AI Services (v2.0)|
+    |<#FFF5E1> Adapters|
+    |<#E8F8E8> Domain Logic & Infrastructure|
+    |<#E8F4F8> Data Access|
+    |<#FFEBEE> Observability|
+    |<#F0F0F0> External Systems|
+    |Solid line: synchronous call|
+    |Dotted line: async or event|
+end legend
+
+@enduml

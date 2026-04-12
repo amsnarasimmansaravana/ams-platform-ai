@@ -2,7 +2,7 @@
 
 ## Enterprise-Grade Multi-Agent Orchestration Platform
 
-Welcome to the AMS-AI documentation. This directory contains all project documentation organized by version.
+This directory contains product, architecture, and protocol documentation. **Start here for navigation**; detailed specs live under `v1.0/` and narrative context under `context/`.
 
 ### Enterprise Capabilities
 
@@ -11,35 +11,65 @@ Welcome to the AMS-AI documentation. This directory contains all project documen
 | **A2A Protocol** | Agent-to-Agent protocol for agent onboarding, discovery, and inter-agent communication |
 | **Security** | SSO (SAML/OIDC), RBAC, MFA, encryption (TLS 1.3, AES-256), secrets management |
 | **Compliance** | SOC 2, ISO 27001, GDPR, HIPAA ready, audit logging, data residency |
-| **Availability** | 99.99% SLA, multi-region, auto-failover, disaster recovery |
+| **Availability** | 99.9–99.99% SLA by version, multi-region, disaster recovery |
 | **Scalability** | Horizontal scaling, 10,000+ concurrent workflows, auto-scaling |
-| **Multi-Tenancy** | Organization hierarchy, tenant isolation, resource quotas |
+| **Multi-Tenancy** | Organization hierarchy, tenant isolation, resource quotas (v1.5+) |
 | **Observability** | Prometheus/Grafana, OpenTelemetry tracing, SIEM integration |
+| **LLMOps & AgentOps** | Run/step/A2A telemetry; v2.0+ model, prompt, cost, RAG, and guardrail operations ([spec](./v1.0/10-LLM-AGENT-OPERATIONS.md)) |
 
 ---
 
-## Documentation Structure
+## How to Read the Docs
+
+| If you need… | Open |
+|--------------|------|
+| One consolidated overview | [COMPLETE-PRODUCT-CONTEXT.md](./COMPLETE-PRODUCT-CONTEXT.md) |
+| Fast lookup by question or role | [CONTEXT-FILE-INDEX.md](./CONTEXT-FILE-INDEX.md) |
+| Executive → product → technical flow | [context/0-MASTER-CONTEXT-NAVIGATION.md](./context/0-MASTER-CONTEXT-NAVIGATION.md) |
+| Versioned requirements & specs | [v1.0/](#version-10-specifications) below |
+| Diagrams (PlantUML + PNG) | [diagrams/README.md](./diagrams/README.md) |
+
+**Authority for implementation:** If narratives conflict, treat **`docs/v1.0/`** specifications as authoritative; refresh consolidated files when those change.
+
+---
+
+## Repository Layout
 
 ```
 docs/
-├── README.md                    # This file
-├── v1.0/                        # Version 1.0 Documentation
-│   ├── 01-PROJECT-OVERVIEW.md   # Executive summary and vision
-│   ├── 02-BUSINESS-REQUIREMENTS.md # Business rules and processes
-│   ├── 03-FUNCTIONAL-REQUIREMENTS.md # Feature specifications
-│   ├── 04-TECHNICAL-ARCHITECTURE.md # System design
-│   ├── 05-VERSION-ROADMAP.md    # Release planning
-│   ├── 06-GLOSSARY.md           # Term definitions
-│   └── CHANGELOG.md             # Version history
-└── templates/                   # Document templates
-    └── ...
+├── README.md                          # This file — navigation & structure
+├── COMPLETE-PRODUCT-CONTEXT.md        # Master consolidated reference
+├── CONTEXT-FILE-INDEX.md              # Quick lookup by topic and role
+├── context/                           # Narrative context (5 documents)
+│   ├── 0-MASTER-CONTEXT-NAVIGATION.md
+│   ├── 1-EXECUTIVE-SUMMARY.md
+│   ├── 2-PRODUCT-SPECIFICATION.md
+│   ├── 3-TECHNICAL-FOUNDATION.md
+│   └── 4-GETTING-STARTED.md
+├── v1.0/                              # Formal specifications (authoritative)
+│   ├── 01-PROJECT-OVERVIEW.md
+│   ├── 02-BUSINESS-REQUIREMENTS.md
+│   ├── 03-FUNCTIONAL-REQUIREMENTS.md
+│   ├── 04-TECHNICAL-ARCHITECTURE.md
+│   ├── 05-VERSION-ROADMAP.md
+│   ├── 06-GLOSSARY.md
+│   ├── 07-ENTERPRISE-REQUIREMENTS.md
+│   ├── 08-NON-FUNCTIONAL-REQUIREMENTS.md
+│   ├── 09-A2A-PROTOCOL-SPECIFICATION.md
+│   ├── 10-LLM-AGENT-OPERATIONS.md    # LLMOps & AgentOps
+│   └── CHANGELOG.md
+├── diagrams/                          # PlantUML sources + exported PNGs
+│   ├── README.md
+│   ├── DIAGRAMS-QUICK-REFERENCE.md
+│   └── *.puml
+└── templates/                         # ADR and requirement templates
+    ├── ARCHITECTURE-DECISION-RECORD.md
+    └── REQUIREMENT-TEMPLATE.md
 ```
 
 ---
 
-## Quick Links
-
-### Current Version (v1.0)
+## Version 1.0 Specifications
 
 | Document | Description |
 |----------|-------------|
@@ -49,10 +79,11 @@ docs/
 | [Technical Architecture](./v1.0/04-TECHNICAL-ARCHITECTURE.md) | System design and stack |
 | [Version Roadmap](./v1.0/05-VERSION-ROADMAP.md) | Release planning |
 | [Glossary](./v1.0/06-GLOSSARY.md) | Term definitions |
-| [Enterprise Requirements](./v1.0/07-ENTERPRISE-REQUIREMENTS.md) | Enterprise-grade specifications |
+| [Enterprise Requirements](./v1.0/07-ENTERPRISE-REQUIREMENTS.md) | Security, compliance, operations |
 | [Non-Functional Requirements](./v1.0/08-NON-FUNCTIONAL-REQUIREMENTS.md) | Quality attributes and SLAs |
-| [A2A Protocol Specification](./v1.0/09-A2A-PROTOCOL-SPECIFICATION.md) | Agent-to-Agent protocol for onboarding |
-| [Changelog](./v1.0/CHANGELOG.md) | Version history |
+| [A2A Protocol Specification](./v1.0/09-A2A-PROTOCOL-SPECIFICATION.md) | Agent-to-Agent protocol |
+| [LLM & Agent Operations](./v1.0/10-LLM-AGENT-OPERATIONS.md) | LLMOps and AgentOps |
+| [Changelog](./v1.0/CHANGELOG.md) | Documentation change history |
 
 ---
 
@@ -60,58 +91,39 @@ docs/
 
 Documentation follows the same versioning as the platform:
 
-- **Major versions** (1.0, 2.0) get dedicated folders
-- **Minor updates** update documents within the version folder
+- **Major versions** (1.0, 2.0) use the `v1.0/` folder (and future `v2.0/` when added)
+- **Minor updates** edit files inside the active version folder and synced narrative under `context/`
 - **Previous versions** are preserved for reference
-
-### Version History
 
 | Version | Status | Description |
 |---------|--------|-------------|
-| v1.0 | Current | Initial documentation |
+| v1.0 | Current | Initial formal specifications + LLMOps/AgentOps supplement |
 
 ---
 
 ## Document Types
 
-### 1. Project Overview
-High-level project information including vision, mission, scope, and stakeholders.
-
-### 2. Business Requirements Document (BRD)
-Business objectives, rules, processes, and constraints that drive the platform.
-
-### 3. Functional Requirements Document (FRD)
-Detailed functional specifications organized by module with acceptance criteria.
-
-### 4. Technical Architecture Document
-System design, technology stack, data models, and infrastructure details.
-
-### 5. Version Roadmap
-Release planning, feature scheduling, and migration guides.
-
-### 6. Glossary
-Definitions of domain-specific terms and concepts.
-
-### 7. Enterprise Requirements Document
-Enterprise-grade specifications including security, compliance, multi-tenancy, high availability, disaster recovery, and operational excellence requirements.
-
-### 8. Non-Functional Requirements Document
-Quality attributes including performance SLAs, scalability targets, reliability requirements, and operational standards.
-
-### 9. Changelog
-Detailed history of changes across versions.
+1. **Project Overview** — Vision, scope, stakeholders  
+2. **Business Requirements (BRD)** — Objectives, rules, processes  
+3. **Functional Requirements (FRD)** — Features and acceptance criteria  
+4. **Technical Architecture** — Design, stack, deployment  
+5. **Version Roadmap** — Releases and migrations  
+6. **Glossary** — Domain terms  
+7. **Enterprise Requirements** — Security, compliance, HA/DR  
+8. **Non-Functional Requirements** — Performance, scalability, reliability  
+9. **A2A Protocol Specification** — Inter-agent protocol  
+10. **LLM & Agent Operations** — LLMOps and AgentOps capabilities and requirements  
+11. **Changelog** — History of documentation changes  
 
 ---
 
 ## Contributing to Documentation
 
-### Guidelines
-
-1. **Consistency**: Follow existing document structure and formatting
-2. **Versioning**: Update version and date when modifying documents
-3. **Cross-references**: Link related documents using relative paths
-4. **Tables**: Use markdown tables for structured data
-5. **Diagrams**: Use ASCII diagrams for portability
+1. **Consistency:** Follow existing structure and headers in `v1.0/`  
+2. **Versioning:** Bump document version and date when meaningfully changed  
+3. **Cross-references:** Use relative paths from `docs/`  
+4. **Diagrams:** Prefer PlantUML under `diagrams/`; export PNGs when sharing externally  
+5. **Consolidated files:** Update `COMPLETE-PRODUCT-CONTEXT.md` and `CONTEXT-FILE-INDEX.md` when adding major topics  
 
 ### Document Header Template
 
@@ -127,35 +139,23 @@ Detailed history of changes across versions.
 ---
 ```
 
-### Revision History Template
-
-```markdown
-## Revision History
-
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | YYYY-MM-DD | Name | Initial draft |
-```
-
 ---
 
 ## Status Definitions
 
 | Status | Description |
 |--------|-------------|
-| **Draft** | Initial writing, subject to major changes |
+| **Draft** | Subject to major changes |
 | **Review** | Ready for stakeholder review |
-| **Approved** | Finalized and approved |
-| **Deprecated** | No longer current, kept for reference |
+| **Approved** | Finalized |
+| **Deprecated** | Kept for reference only |
 
 ---
 
 ## Contact
 
-For questions about documentation:
-- Create an issue in the repository
-- Contact the documentation maintainers
+For documentation questions, open an issue in the repository or contact the documentation maintainers.
 
 ---
 
-*Last Updated: 2026-01-25*
+*Last Updated: 2026-04-13*

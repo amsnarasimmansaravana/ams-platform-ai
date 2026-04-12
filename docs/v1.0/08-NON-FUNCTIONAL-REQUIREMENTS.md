@@ -2,15 +2,39 @@
 
 ## AMS-AI: Multi-Agent Orchestration Platform
 
-**Document Version:** 1.0  
-**Last Updated:** 2026-01-25  
-**Status:** Draft
+**Document Version:** 1.0
+**Last Updated:** 2026-04-12
+**Status:** Complete Specification with SLA Targets
 
 ---
 
-## 1. Overview
+## 1. Overview & SLA Framework
 
-This document defines the non-functional requirements (NFRs) that the AMS-AI platform must satisfy. These requirements define the quality attributes that govern how the system performs its functions.
+This document defines the quality attributes (Non-Functional Requirements) that AMS-AI must satisfy. NFRs govern performance, reliability, scalability, security, and operational characteristics.
+
+### 1.1 SLA Tiers
+
+Platform SLAs vary by deployment tier:
+
+| Tier | Uptime Target | Monthly Downtime | Response (p95) | Throughput |
+|------|---------------|------------------|---|-----------|
+| **Development** | 95% | 36 hours | 500ms | 100 req/s |
+| **Standard** | 99.5% | 3.6 hours | 200ms | 1,000 req/s |
+| **Enterprise** | 99.95% | 22 minutes | 100ms | 10,000 req/s |
+| **Enterprise+** | 99.99% | 4.4 minutes | 50ms | 50,000 req/s |
+
+### 1.2 Performance Budget
+
+Total system latency budget for workflow execution:
+
+```
+Request → API Gateway (5ms)
+  → Auth/Rate Limit (3ms)
+  → Service Logic (20ms)
+  → Database (10ms)
+  → Response (2ms)
+  = Total: ~40ms p50 target
+```
 
 ---
 
@@ -247,6 +271,184 @@ This document defines the non-functional requirements (NFRs) that the AMS-AI pla
 ### 6.2 Data Protection
 
 #### NFR-SEC-003: Encryption Requirements
+
+| Data at Rest | Encryption Algorithm | Key Management |
+|-------------|----------------------|-----------------|
+| User Data | AES-256-GCM | AWS KMS / Vault |
+| Agent Config | AES-256-GCM | AWS KMS / Vault |
+| Secrets (API Keys) | AES-256-GCM | Vault with rotation |
+| Database | AES-256-GCM | Database-level encryption |
+
+| Data in Transit | Protocol | Certificate |
+|-----------------|----------|-------------|
+| API Requests | TLS 1.3+ | Valid wildcard cert |
+| Database Connection | TLS 1.3+ | Self-signed acceptable internally |
+| Agent-to-Agent (A2A) | TLS 1.3+ mandatory | mTLS for sensitive ops |
+
+---
+
+## 7. Deployment & Infrastructure Requirements
+
+### 7.1 Deployment Environments
+
+#### Development Environment
+- Deployment: Docker Compose (single node)
+- Database: PostgreSQL (non-replicated)
+- Cache: Redis (single instance)
+- Observability: Prometheus + Grafana
+- Scaling: Manual vertical scaling
+- Availability: N/A (development only)
+- Cost: $200-500/month
+
+#### Staging Environment
+- Deployment: Kubernetes (3-node cluster)
+- Database: PostgreSQL with hot standby
+- Cache: Redis Sentinel (3 nodes)
+- Observability: Full observability stack
+- Scaling: Manual horizontal scaling
+- Availability: 99.0% target
+- Cost: $1,000-2,000/month
+
+#### Production Environment (Standard)
+- Deployment: Kubernetes (6-15 node cluster)
+- Database: PostgreSQL with multi-region replication
+- Cache: Redis Cluster (6+ nodes)
+- Observability: Full observability + alerting
+- Scaling: Auto-scaling (2-10 replicas per service)
+- Availability: 99.5% target
+- Cost: $3,000-10,000/month
+
+#### Production Environment (Enterprise)
+- Deployment: Kubernetes multi-region (15-50 nodes per region)
+- Database: PostgreSQL with active-active replication
+- Cache: Redis Cluster with replication (12+ nodes)
+- Observability: Enterprise monitoring + incident response
+- Scaling: Auto-scaling (5-50 replicas per service)
+- Availability: 99.95% target
+- Cost: $15,000-50,000/month
+
+### 7.2 Kubernetes Deployment Specifications
+
+**Minimum Resource Requirements:**
+
+```yaml
+# API Server
+resources:
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  limits:
+    cpu: 2000m
+    memory: 2Gi
+replicas: 2 (minimum, 10 maximum)
+health_check_interval: 10s
+readiness_probe: /health/ready
+liveness_probe: /health/alive
+
+# Worker (Celery)
+resources:
+  requests:
+    cpu: 1000m
+    memory: 1Gi
+  limits:
+    cpu: 4000m
+    memory: 4Gi
+replicas: 2 (minimum, 50 maximum)
+
+# Database (PostgreSQL)
+requests:
+  cpu: 2000m
+  memory: 4Gi
+storage: 50Gi (scalable)
+backup: Daily + continuous WAL archiving
+```
+
+### 7.3 Network & Connectivity
+
+**Network Architecture:**
+
+```
+Internet
+   ↓
+[WAF / DDoS Protection]
+   ↓
+[Load Balancer] (Layer 7)
+   ↓
+[Kubernetes Ingress] (nginx-ingress)
+   ↓
+[API Gateway Service] ← TLS 1.3
+   ↓
+[Internal Services] ← Service mesh (optional)
+   ↓
+[PostgreSQL] ← Encrypted connection
+[Redis] ← Encrypted connection (optional)
+[S3/MinIO] ← Encrypted connection
+```
+
+**Bandwidth Budgets:**
+
+| Traffic Type | Baseline | Peak | Max Growth |
+|-------------|----------|------|-----------|
+| API Traffic | 100 Mbps | 500 Mbps | 1 Gbps |
+| Agent-to-Agent | 50 Mbps | 200 Mbps | 500 Mbps |
+| Database Replication | 20 Mbps | 100 Mbps | 200 Mbps |
+
+---
+
+## 8. Monitoring & Observability Requirements
+
+### 8.1 Metrics Collection
+
+**Key Performance Indicators (KPIs):**
+
+| Metric | Scrape Interval | Query Interval | Alert Threshold |
+|--------|-----------------|-----------------|-----------------|
+| Request Latency (p50/p95/p99) | 15s | 5m | p95 > 200ms |
+| Error Rate | 15s | 5m | > 1% |
+| CPU Utilization | 30s | 5m | > 80% |
+| Memory Utilization | 30s | 5m | > 85% |
+| Disk Utilization | 60s | 5m | > 90% |
+| Database Connections | 30s | 5m | > 80% of pool |
+| Queue Depth (Celery) | 30s | 5m | > 1000 jobs |
+| Workflow Success Rate | 60s | 5m | < 98% |
+
+**Custom Metrics:**
+
+```python
+# Platform-specific metrics
+agents.created[total]           # Total agents created
+agents.active[gauge]            # Current active agents
+workflows.executions[total]     # Total workflow runs
+workflows.completion_time[histogram]  # Workflow duration
+a2a.tasks.processed[total]      # A2A tasks completed
+a2a.discovery.queries[total]    # Agent discovery queries
+```
+
+### 8.2 Logging & Audit Requirements
+
+**Log Levels:**
+
+- **ERROR**: System failures, exceptions, failed API calls
+- **WARN**: Deprecated features, fallback behaviors, security anomalies
+- **INFO**: User actions (create agent, run workflow), deployments
+- **DEBUG**: Service interactions, state transitions (dev/staging only)
+
+**Log Retention:**
+
+| Log Type | Retention | Storage | Query SLA |
+|----------|-----------|---------|-----------|
+| Application Logs | 30 days | ELK Stack / Loki | 5 minutes |
+| Audit Logs | 7 years | Immutable S3 + DB | 24 hours |
+| Security Logs | 2 years | SIEM integration | 1 hour |
+
+**Audit Log Requirements:**
+
+Every significant action must be logged:
+- Agent creation/update/deletion (WHO, WHAT, WHEN, WHERE - IP)
+- Workflow execution (input, output, duration, errors)
+- Access control (permission grants, denials, policy changes)
+- Configuration changes (API keys, secrets, settings)
+- Deployment actions (scale, update, rollback)
 
 | Data State | Encryption Standard |
 |------------|---------------------|

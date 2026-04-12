@@ -1,0 +1,186 @@
+@startuml AMS-AI-Security-Compliance
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 11
+skinparam defaultFontStyle bold
+skinparam ArrowColor #C62828
+skinparam ArrowThickness 2
+skinparam BorderColor #263238
+skinparam ComponentBackgroundColor #EF9A9A
+skinparam ComponentBorderColor #C62828
+skinparam ComponentBorderThickness 2
+skinparam PackageBackgroundColor #F5F5F5
+skinparam PackageBorderColor #424242
+skinparam PackageBorderThickness 2
+skinparam ShadowColor #999999
+
+title AMS-AI: Security & Compliance Architecture
+
+header
+  Updated: April 12, 2026 | Enterprise Requirements Documented
+  v1.0 Ready: SOC 2 Type I, GDPR, Audit Logging
+  v1.5+ Roadmap: SOC 2 Type II, ISO 27001, FedRAMP
+end header
+
+' Access Control
+package "Authentication & Authorization" #FFEBEE {
+    rectangle "**Multi-Factor Authentication**\n• TOTP/FIDO2\n• SMS (optional)\n• Passwordless" as MFA
+
+    rectangle "**Identity Management**\n• SSO (SAML 2.0, OIDC)\n• LDAP/Active Directory\n• JWT Tokens\n• API Keys" as IDENTITY
+
+    rectangle "**Authorization**\n• Role-Based Access Control\n• Attribute-Based Control\n• Resource-level permissions\n• Dynamic policies" as AUTHZ
+}
+
+' Data Protection
+package "Data Protection & Encryption" #FCE4EC {
+    rectangle "**Encryption In Transit**\n• TLS 1.3\n• mTLS (service-to-service)\n• Certificate pinning\n• Forward secrecy" as TRANSIT
+
+    rectangle "**Encryption At Rest**\n• AES-256-GCM\n• Database encryption\n• Backup encryption\n• Key rotation (90 days)" as AT_REST
+
+    rectangle "**Secrets Management**\n• HashiCorp Vault\n• AWS Secrets Manager\n• Azure Key Vault\n• Automatic rotation" as SECRETS
+}
+
+' Compliance Frameworks
+package "Compliance & Standards (by Version)" #FFF9C4 {
+    rectangle "**v0.x - Foundation**\n• Basic audit logging\n• No audit trail" as COMP_V0
+
+    rectangle "**v1.0 - Production**\n• SOC 2 Type I ready\n• ISO 27001 alignment\n• Audit logging\n• GDPR-ready" as COMP_V1
+
+    rectangle "**v1.5 - Enterprise**\n• SOC 2 Type II (certified)\n• ISO 27001 (certified)\n• GDPR compliance\n• HIPAA configuration\n• PCI DSS support" as COMP_V15
+
+    rectangle "**v2.0 - Global**\n• FedRAMP authorization\n• Additional certifications\n• Air-gap support\n• Sovereign deployment" as COMP_V2
+}
+
+' Audit & Monitoring
+package "Audit & Activity Monitoring" #FFCCBC {
+    rectangle "**Immutable Audit Log**\n(v1.0+)\n• All API calls logged\n• User actions tracked\n• Data access logged\n• Tamper-evident storage" as AUDIT_LOG
+
+    rectangle "**Compliance Monitoring**\n• Policy enforcement\n• Deviation detection\n• Automated reporting\n• Alert on violations" as COMP_MON
+
+    rectangle "**Threat Detection**\n• Anomaly detection\n• Brute force protection\n• SQL injection prevention\n• DDoS protection" as THREAT_DET
+}
+
+' Data Residency & Sovereignty
+package "Data Residency & Sovereignty" #E0F2F1 {
+    rectangle "**Geo-Fencing (v1.5+)**\n• EU: Data stays in EU\n• US: Data stays in US\n• APAC: Data stays in APAC\n• China: Compliant deployment" as GEO_FENCE
+
+    rectangle "**Data Classification**\n• Public\n• Internal\n• Confidential\n• Restricted\n• PII" as DATA_CLASS
+
+    rectangle "**Retention Policies**\n• Application data: Configurable\n• Audit logs: 7 years (default)\n• Backup data: Aligned\n• Right to deletion" as RETENTION
+}
+
+' Incident Response
+package "Incident Response & Recovery" #ECEFF1 {
+    rectangle "**Incident Detection**\n• Automated alerts\n• 24/7 monitoring\n• Security dashboard\n• SIEM integration" as INC_DET
+
+    rectangle "**Response Plan**\n• Escalation procedures\n• Playbooks\n• Communication templates\n• Post-incident review" as INC_RESP
+
+    rectangle "**Business Continuity**\n• RPO: 0 data loss\n• RTO: < 1 hour\n• Disaster recovery\n• Failover automation" as BCP
+}
+
+' Third-Party & Supply Chain
+package "Third-Party & Supply Chain Security" #F3E5F5 {
+    rectangle "**Vendor Assessment**\n• Security questionnaire\n• Penetration testing\n• Annual audit\n• Compliance verification" as VENDOR_ASSESS
+
+    rectangle "**Dependency Management**\n• SBOM (Software BOM)\n• Vulnerability scanning\n• License compliance\n• Update policies" as DEPT_MGT
+
+    rectangle "**Change Management**\n• Code review requirement\n• Security scanning\n• Deploy approval\n• Rollback procedure" as CHANGE_MGT
+}
+
+' GDPR & Privacy
+package "GDPR & Privacy Compliance" #E8EAF6 {
+    rectangle "**Privacy by Design**\n• Data minimization\n• Purpose limitation\n• Storage limitation\n• Accuracy requirement" as PRIVACY_DESIGN
+
+    rectangle "**User Rights**\n• Right to access (24h)\n• Right to rectification\n• Right to be forgotten\n• Data portability\n• Withdraw consent" as USER_RIGHTS
+
+    rectangle "**DPA & Processing**\n• Data Processing Agreement\n• Lawful basis documented\n• Sub-processor list\n• Cross-border transfers (SCCs)" as DPA
+}
+
+' Security Testing
+package "Security Testing & Validation" #FFF3E0 {
+    rectangle "**Static Analysis**\n• SonarQube\n• Checkmarx\n• Dependency check\n• OWASP/SAST" as STATIC
+
+    rectangle "**Dynamic Testing**\n• Penetration testing\n• DAST scanning\n• API security test\n• Load testing\n• Fuzzing" as DYNAMIC
+
+    rectangle "**Continuous Validation**\n• Dev: Pre-commit hooks\n• CI/CD: Automated scans\n• Staging: Full pentest\n• Production: Bug bounty" as CONT_VAL
+}
+
+' Organization & Governance
+package "Organization & Governance (v1.5+)" #C8E6C9 {
+    rectangle "**Security Team**\n• CISO oversight\n• Security engineer\n• Compliance officer\n• Incident lead" as SEC_TEAM
+
+    rectangle "**Policies**\n• Security policy\n• Acceptable use policy\n• Incident response\n• Access management\n• Change control" as POLICIES
+
+    rectangle "**Training & Awareness**\n• Quarterly training\n• Phishing simulations\n• Code security training\n• Incident simulations" as TRAINING
+}
+
+' Connections
+IDENTITY --> AUTHZ
+MFA --> IDENTITY
+
+TRANSIT -.-> SECRETS
+AT_REST -.-> SECRETS
+
+AUDIT_LOG --> COMP_MON
+COMP_MON --> COMP_V15
+
+THREAT_DET --> INC_DET
+INC_DET --> INC_RESP
+
+GEO_FENCE --> RETENTION
+DATA_CLASS --> RETENTION
+
+VENDOR_ASSESS --> DEPT_MGT
+DEPT_MGT --> CHANGE_MGT
+
+PRIVACY_DESIGN --> USER_RIGHTS
+USER_RIGHTS --> DPA
+
+STATIC --> CONT_VAL
+DYNAMIC --> CONT_VAL
+
+SEC_TEAM --> POLICIES
+POLICIES --> TRAINING
+
+' Notes
+note right of COMP_V15
+    **Enterprise Compliance**
+    Meet most regulatory
+    requirements globally
+end note
+
+note bottom of AUDIT_LOG
+    **Audit Trail**
+    Immutable, tamper-evident
+    Supports compliance
+    audits and investigations
+end note
+
+note bottom of GEO_FENCE
+    **Data Sovereignty**
+    Ensures data stays
+    in compliance zones
+end note
+
+note bottom of PRIVACY_DESIGN
+    **GDPR Compliance**
+    Built-in controls
+    for all privacy
+    requirements
+end note
+
+legend right
+    |Security Zone|
+    |<#FFEBEE> Authentication|
+    |<#FCE4EC> Encryption|
+    |<#FFF9C4> Compliance|
+    |<#FFCCBC> Monitoring|
+    |<#E0F2F1> Data Residency|
+    |<#ECEFF1> Incident Mgmt|
+    |<#F3E5F5> Supply Chain|
+    |<#E8EAF6> Privacy/GDPR|
+    |<#FFF3E0> Testing|
+    |<#C8E6C9> Governance|
+end legend
+
+@enduml

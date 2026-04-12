@@ -1,0 +1,152 @@
+@startuml AMS-AI-Business-Architecture
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 11
+skinparam defaultFontStyle bold
+skinparam ArrowColor #1565C0
+skinparam ArrowThickness 2
+skinparam BorderColor #263238
+skinparam ComponentBackgroundColor #BBDEFB
+skinparam ComponentBorderColor #1565C0
+skinparam ComponentBorderThickness 2
+skinparam PackageBackgroundColor #F5F5F5
+skinparam PackageBorderColor #424242
+skinparam PackageBorderThickness 2
+skinparam ActorBackgroundColor #FFE082
+skinparam ActorBorderColor #F57F17
+skinparam RectBackgroundColor #E1BEE7
+skinparam RectBorderColor #6A1B9A
+skinparam ShadowColor #999999
+skinparam linetype ortho
+
+title AMS-AI: Business Architecture\nDomains, Value Streams, Business Processes & Data Entities\nEnterprise Edition (v1.0 GA)
+
+' Stakeholders
+package "Business Stakeholders" #FFFFFF {
+    actor [Enterprise\nClient\nOrganizations] as ORG_CLIENT
+    actor [Platform\nAdministrators] as ADMINS
+    actor [AI Engineers\n& Developers] as ENGINEERS
+    actor [End Users\n(Business Users)] as END_USERS
+    actor [Compliance\n& Security\nTeams] as COMPLIANCE
+}
+
+' Business Capabilities - Core Domains
+package "Core Business Domains" #E8F4F8 {
+    rectangle "**Domain 1: Agent Registry**\n━━━━━━━━━━━━━━━\n• Agent Onboarding\n• Capability Discovery\n• Version Management\n• Status Tracking\n• A2A Integration" as AGENT_DOMAIN
+
+    rectangle "**Domain 2: Orchestration**\n━━━━━━━━━━━━━━━\n• Workflow Definition\n• Pattern Support\n• Validation & Compilation\n• Execution Management\n• Monitoring & Observability" as ORCH_DOMAIN
+
+    rectangle "**Domain 3: Tool Integration**\n━━━━━━━━━━━━━━━\n• Tool Registry\n• Capability Management\n• Parameter Validation\n• Execution Tracking\n• Performance Analytics" as TOOL_DOMAIN
+
+    rectangle "**Domain 4: Deployment\n& Operations**\n━━━━━━━━━━━━━━━\n• Deployment Lifecycle\n• Scaling Management\n• Health Monitoring\n• Rollback Capabilities\n• SLA Management" as DEPLOY_DOMAIN
+}
+
+' AI-Driven Capabilities (v2.0)
+package "AI-Driven Capabilities (v2.0)" #FFF0F5 {
+    rectangle "**Domain 5: LLM Management**\n━━━━━━━━━━━━━━━\n• Multi-Provider Support\n• Model Versioning\n• Cost Optimization\n• Performance Monitoring\n• Failover Strategies" as LLM_DOMAIN
+
+    rectangle "**Domain 6: Intelligence Layer**\n━━━━━━━━━━━━━━━\n• Prompt Management\n• Memory Systems\n• RAG Pipelines\n• MCP Integration\n• Knowledge Management" as INTEL_DOMAIN
+}
+
+' Enterprise Capabilities
+package "Enterprise Capabilities" #FFFFCC {
+    rectangle "**Security & Governance**\n• Authentication (SSO/SAML/OIDC)\n• Authorization (RBAC)\n• Secrets Management\n• Audit Logging\n• Encryption (TLS, AES-256)" as SECURITY
+
+    rectangle "**Compliance & Risk**\n• SOC 2 Type II\n• ISO 27001\n• GDPR Compliance\n• HIPAA Ready\n• Data Residency" as COMPLIANCE_DOM
+
+    rectangle "**Operations & Support**\n• Monitoring & Alerting\n• Observability\n• Disaster Recovery\n• Backup & Restore\n• Support Portal" as OPS
+}
+
+' Value Streams
+package "Customer Value Streams" #E8F8E8 {
+    rectangle "Enterprise Automation" as VS_AUTO
+    rectangle "AI Pipeline\nOrchestration" as VS_PIPELINE
+    rectangle "Complex Multi-Agent\nWorkflows" as VS_MULTIAGENT
+}
+
+' Business Processes (High Level)
+package "Key Business Processes" #F5F5F5 {
+    rectangle "**BP-001: Agent Onboarding**\n1. Register Agent → 2. Discover Capabilities\n3. Validate Configuration → 4. Activate\n5. Monitor Health" as BP_ONBOARD
+
+    rectangle "**BP-002: Workflow Execution**\n1. Define Workflow → 2. Validate Orchestration\n3. Deploy → 4. Execute\n5. Monitor & Alert → 6. Complete/Rollback" as BP_EXEC
+
+    rectangle "**BP-003: Model Selection & Fallover**\n1. Select Primary Model → 2. Configure Parameters\n3. Monitor Performance → 4. Trigger Failover\n5. Log & Analyze Cost" as BP_MODEL
+
+    rectangle "**BP-004: Knowledge Retrieval (RAG)**\n1. Ingest Documents → 2. Generate Embeddings\n3. Index in Vector DB → 4. Semantic Search\n5. Inject Context → 6. Generate Response" as BP_RAG
+}
+
+' Data Entities
+package "Core Data Entities" #FFFFFF {
+    rectangle "Agents\n• ID, Name, Type\n• Configuration\n• A2A Card\n• Skills/Capabilities\n• Version, Status" as AGENT_ENTITY
+
+    rectangle "Workflows\n• ID, Name, Status\n• Node Graph\n• Execution Config\n• Parameters\n• Version History" as WORKFLOW_ENTITY
+
+    rectangle "Tools\n• ID, Name, Type\n• Input/Output Schema\n• Configuration\n• Dependencies\n• Analytics" as TOOL_ENTITY
+
+    rectangle "Runs\n• ID, Status\n• Input/Output Data\n• Execution Timeline\n• Logs, Metrics\n• Artifacts" as RUN_ENTITY
+
+    rectangle "Models\n• ID, Name, Provider\n• Version, Status\n• Performance Data\n• Cost Tracking\n• Failover Config" as MODEL_ENTITY
+}
+
+' Interactions
+ORG_CLIENT --> AGENT_DOMAIN
+ENGINEERS --> AGENT_DOMAIN
+ENGINEERS --> ORCH_DOMAIN
+ENGINEERS --> TOOL_DOMAIN
+ENGINEERS --> LLM_DOMAIN
+ENGINEERS --> INTEL_DOMAIN
+ADMINS --> DEPLOY_DOMAIN
+ADMINS --> SECURITY
+COMPLIANCE --> COMPLIANCE_DOM
+END_USERS --> ORCH_DOMAIN
+END_USERS --> DEPLOY_DOMAIN
+
+AGENT_DOMAIN --> VS_AUTO
+ORCH_DOMAIN --> VS_PIPELINE
+AGENT_DOMAIN --> VS_MULTIAGENT
+INTEL_DOMAIN --> VS_MULTIAGENT
+
+AGENT_DOMAIN --> BP_ONBOARD
+ORCH_DOMAIN --> BP_EXEC
+LLM_DOMAIN --> BP_MODEL
+INTEL_DOMAIN --> BP_RAG
+
+BP_ONBOARD --> AGENT_ENTITY
+BP_EXEC --> WORKFLOW_ENTITY
+BP_EXEC --> RUN_ENTITY
+BP_EXEC --> TOOL_ENTITY
+BP_MODEL --> MODEL_ENTITY
+
+' Notes
+note right of AGENT_DOMAIN
+    **Strategic Importance**
+    - Foundation of platform
+    - Enables framework diversity
+    - A2A protocol innovation
+end note
+
+note right of INTEL_DOMAIN
+    **v2.0 Differentiator**
+    - Advanced AI capabilities
+    - Knowledge integration
+    - Context awareness
+end note
+
+note bottom of SECURITY
+    **Risk Mitigation**
+    - Enterprise compliance
+    - Data protection
+    - Audit trails
+end note
+
+legend right
+    |Color Explanation|
+    |<#E8F4F8> Core Domains|
+    |<#FFF0F5> AI Domains (v2.0)|
+    |<#FFFFCC> Enterprise|
+    |<#E8F8E8> Value Streams|
+    |<#F5F5F5> Processes|
+    |<#FFFFFF> Data Entities|
+end legend
+
+@enduml

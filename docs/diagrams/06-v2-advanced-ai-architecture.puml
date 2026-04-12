@@ -1,0 +1,248 @@
+@startuml AMS-AI-v2-Advanced-AI-Architecture
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 11
+skinparam defaultFontStyle bold
+skinparam ArrowColor #D32F2F
+skinparam ArrowThickness 2
+skinparam BorderColor #263238
+skinparam ComponentBackgroundColor #FFCDD2
+skinparam ComponentBorderColor #D32F2F
+skinparam ComponentBorderThickness 2
+skinparam PackageBackgroundColor #F5F5F5
+skinparam PackageBorderColor #424242
+skinparam PackageBorderThickness 2
+skinparam ShadowColor #999999
+
+title AMS-AI v2.0: Advanced AI Architecture
+
+' Request flow (component diagram; avoids mixing participant/sequence with component packages)
+package "Agent Request Flow (End-to-End)" #F5F5F5 {
+    component [User / Orchestration] as USER
+    component [Agent Executor] as EXECUTOR
+    component [Prompt Engine] as PROMPT_ENGINE
+    component [Memory Manager] as MEMORY_MGR
+    component [RAG Pipeline] as RAG_ENGINE
+    component [LLM Router] as LLM_ROUTER
+    component [LLM Provider] as LLM_PROVIDER
+}
+
+' Step 1: Memory Retrieval
+USER --> MEMORY_MGR : 1. Get agent memory context
+MEMORY_MGR --> USER : Return short-term, long-term, semantic
+USER --> RAG_ENGINE : 2. Query knowledge base (if needed)
+RAG_ENGINE --> USER : Return relevant documents and chunks
+
+' Step 2: Prompt Preparation
+USER --> PROMPT_ENGINE : 3. Load prompt template
+PROMPT_ENGINE --> USER : Render template with variables
+note right of PROMPT_ENGINE
+    **Template Process**
+    • Load from registry
+    • Inject context variables
+    • Add memory content
+    • Add RAG results
+end note
+
+' Step 3: Model Selection
+USER --> LLM_ROUTER : 4. Select LLM model
+LLM_ROUTER --> USER : Return selected model and config
+note right of LLM_ROUTER
+    **Model Selection**
+    • Primary model (cost/perf)
+    • Fallback models
+    • Rate limit check
+    • Cost budget check
+end note
+
+' Step 4: Invocation
+USER --> LLM_PROVIDER : 5. Call LLM
+LLM_PROVIDER --> USER : Generate response
+
+' Step 5: Post-Processing
+USER --> MEMORY_MGR : 6. Store interaction
+MEMORY_MGR --> USER : Memory updated
+USER --> PROMPT_ENGINE : 7. Extract results (if A/B test)
+PROMPT_ENGINE --> USER : Test metrics recorded
+
+USER ..> EXECUTOR : delegates execution
+EXECUTOR ..> MEMORY_MGR : uses
+
+' AI Services Components
+package "LLM Management Service" #FFE4E1 {
+    component [Model Registry\n(Versioned Models)] as LLM_REG
+    component [Provider ADapters\n(Multi-Provider)] as LLM_ADAPTERS
+    component [Performance\nTracker] as LLM_PERF
+    component [Cost\nAnalytics] as LLM_COST
+    component [Failover\nOrchestrator] as LLM_FAILOVER
+}
+
+package "Prompt Management Service" #FFE4E6 {
+    component [Template\nLibrary] as TEMPLATE_LIB
+    component [Rendering\nEngine] as RENDER_ENGINE
+    component [Variable\nSubstitution] as VAR_SUBST
+    component [A/B Testing\nFramework] as AB_TEST
+    component [Optimization\nEngine] as PROMPT_OPT
+}
+
+package "Memory & Context Service" #FFE9EC {
+    component [Short-Term\nMemory\n(Session)] as SHORT_MEM
+    component [Long-Term\nMemory\n(Persistent)] as LONG_MEM
+    component [Semantic\nMemory\n(Abstract)] as SEMANTIC_MEM
+    component [Context\nWindow Mgr] as CONTEXT_MGR_COMP
+    component [Cleanup\nService] as CLEANUP_SVC
+}
+
+package "RAG Pipeline Service" #FFFFCC {
+    component [Document\nIngestion] as DOC_INGEST
+    component [Chunking\nStrategy] as CHUNKING
+    component [Embedding\nGenerator] as EMBEDDING_GEN
+    component [Vector Store\nClient] as VECTOR_STORE
+    component [Semantic\nSearch] as SEM_SEARCH
+}
+
+package "MCP Integration Service" #E8E8FF {
+    component [MCP Server\nRegistry] as MCP_REG
+    component [Resource\nManager] as MCP_RES_MGR
+    component [Tool\nAdapter] as MCP_TOOL
+    component [Discovery\nService] as MCP_DISCOVERY
+    component [Caching\nLayer] as MCP_CACHE
+}
+
+package "Enhanced Tools Management" #E8F8E8 {
+    component [Tool\nRegistry\n(Advanced)] as TOOL_REG_ADV
+    component [Dependency\nResolver] as DEP_RESOLVER
+    component [Execution\nSandbox] as EXEC_SANDBOX
+    component [Analytics\nCollector] as ANALYTICS
+    component [Marketplace\nService] as MARKETPLACE
+}
+
+' Infrastructure
+package "Infrastructure (v2.0)" #F0F0F0 {
+    database [PostgreSQL\n+ pgvector] as PG_V2
+    database [Vector DB\n(Milvus/Weaviate/\nPinecone/Qdrant)] as VECTOR_DB
+    component [Redis\nCache] as REDIS_V2
+    component [Message\nQueue] as MSGQ_V2
+    component [Object\nStorage] as STORAGE_V2
+}
+
+' External LLM Providers
+package "LLM Provider Ecosystem" #FFF5E1 {
+    component [OpenAI\nGPT-4, GPT-3.5] as OPENAI
+    component [Anthropic\nClaude 3] as ANTHROPIC
+    component [Azure OpenAI\n(Enterprise)] as AZURE_OPENAI
+    component [Local Models\n(Ollama, vLLM)] as LOCAL_LLM
+    component [Other Providers\n(Bedrock, etc.)] as OTHER_LLM
+}
+
+' Observability for v2.0
+package "v2.0 Observability" #FFEBEE {
+    component [LLM Usage\nMetrics] as LLM_METRICS
+    component [RAG\nPerformance] as RAG_METRICS
+    component [Cost\nTracking] as COST_METRICS
+    component [Memory\nStats] as MEM_METRICS
+}
+
+package "LLMOps & AgentOps\nControl Plane" #F3E5F5 {
+    component [Evaluation &\nRegression Gates] as EVAL_GATES
+    component [Guardrails &\nSafety Policies] as GUARDRAILS
+    component [Run Replay &\nDebug (redacted)] as RUN_REPLAY
+    component [SLO / Budget\nAlerting] as SLO_BUDGET
+}
+
+' Connections - Service to Infrastructure
+LLM_REG --> PG_V2
+LLM_ADAPTERS --> OPENAI
+LLM_ADAPTERS --> ANTHROPIC
+LLM_ADAPTERS --> AZURE_OPENAI
+LLM_ADAPTERS --> LOCAL_LLM
+LLM_ADAPTERS --> OTHER_LLM
+LLM_PERF --> REDIS_V2
+LLM_COST --> PG_V2
+
+TEMPLATE_LIB --> PG_V2
+RENDER_ENGINE --> TEMPLATE_LIB
+VAR_SUBST --> RENDER_ENGINE
+AB_TEST --> REDIS_V2
+
+SHORT_MEM --> REDIS_V2
+LONG_MEM --> PG_V2
+SEMANTIC_MEM --> VECTOR_DB
+CONTEXT_MGR_COMP --> SHORT_MEM
+CLEANUP_SVC --> LONG_MEM
+
+DOC_INGEST --> STORAGE_V2
+CHUNKING --> DOC_INGEST
+EMBEDDING_GEN --> CHUNKING
+VECTOR_STORE --> VECTOR_DB
+SEM_SEARCH --> VECTOR_STORE
+
+MCP_REG --> PG_V2
+MCP_RES_MGR --> MCP_REG
+MCP_TOOL --> MCP_RES_MGR
+MCP_DISCOVERY --> MCP_REG
+MCP_CACHE --> REDIS_V2
+
+TOOL_REG_ADV --> PG_V2
+DEP_RESOLVER --> TOOL_REG_ADV
+EXEC_SANDBOX --> STORAGE_V2
+ANALYTICS --> PG_V2
+
+' Metrics connections
+LLM_ADAPTERS -.-> LLM_METRICS
+RAG_ENGINE -.-> RAG_METRICS
+LLM_COST -.-> COST_METRICS
+MEMORY_MGR -.-> MEM_METRICS
+
+EVAL_GATES --> PG_V2
+GUARDRAILS --> LLM_ADAPTERS
+RUN_REPLAY --> PG_V2
+SLO_BUDGET -.-> LLM_METRICS
+SLO_BUDGET -.-> COST_METRICS
+USER -.-> RUN_REPLAY : "debug"
+
+note bottom of PROMPT_ENGINE
+    **Prompt Rendering Process**
+    Template + Variables + Context +
+    Memory + RAG Results → Final Prompt
+end note
+
+note bottom of LLM_ROUTER
+    **Intelligent Model Selection**
+    Consider: Cost/Task/Speed/Accuracy/Availability
+    Automatic failover to fallback models
+    Real-time performance monitoring
+end note
+
+note bottom of SEM_SEARCH
+    **Vector Search**
+    User query → Embedding → Vector DB
+    Similarity search → Ranked results
+    Context injection into prompt
+end note
+
+note bottom of VECTOR_DB
+    **Multi-Database Support**
+    Milvus: OSS, self-hosted
+    Weaviate: Flexible deployment
+    Pinecone: Managed, serverless
+    Qdrant: Fast, memory-efficient
+end note
+
+legend right
+    |Service Layer Color|
+    |<#FFE4E1> LLM Mgmt|
+    |<#FFE4E6> Prompt Mgmt|
+    |<#FFE9EC> Memory|
+    |<#FFFFCC> RAG|
+    |<#E8E8FF> MCP|
+    |<#E8F8E8> Tools v2.0|
+    |<#F0F0F0> Infrastructure|
+    |<#FFF5E1> External|
+    |<#FFEBEE> Observability|
+    |<#F3E5F5> LLMOps & AgentOps|
+    |Solid line: sync call|
+    |Dotted line: metrics or debug|
+end legend
+
+@enduml
