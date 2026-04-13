@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" modified="2026-04-13" agent="Mozilla/5.0" version="20.3.0" type="device">
+  <diagram name="AI HR Orchestration System" id="diagram1">
+    <mxGraphModel dx="2000" dy="2000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1080" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- HEADER BACKGROUND -->
+        <mxCell id="header-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a237e;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1920" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- COMPANY GOALS BOX -->
+        <mxCell id="company-box" value="📌 Company&#10;Goals&#10;• Faster Hiring&#10;• Better Retention&#10;• Less Bias&#10;• Lower Costs&#10;• Happier Geo Sources" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a237e;strokeColor=#ffeb3b;strokeWidth=2;fontSize=8;fontColor=#ffffff;align=left;verticalAlign=top;padding=3;" vertex="1" parent="1">
+          <mxGeometry x="15" y="15" width="85" height="85" as="geometry" />
+        </mxCell>
+
+        <!-- MAIN TITLE -->
+        <mxCell id="main-title" value="AI-DRIVEN HR MULTI-AGENT ORCHESTRATION SYSTEM" style="text;html=1;align=center;verticalAlign=middle;fontSize=19;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="110" y="10" width="1790" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- TAGLINE -->
+        <mxCell id="tagline" value="Failure-Aware • Human-in-the-Loop • Continuous Learning" style="text;html=1;align=center;verticalAlign=middle;fontSize=12;fontColor=#ffeb3b;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="110" y="38" width="1790" height="22" as="geometry" />
+        </mxCell>
+
+        <!-- SUBTITLE -->
+        <mxCell id="subtitle" value="From Requisition to Onboarding and Beyond — An Adaptive, Transparent &amp; Intelligent Hiring Opening System" style="text;html=1;align=center;verticalAlign=middle;fontSize=10;fontColor=#e0e0e0;" vertex="1" parent="1">
+          <mxGeometry x="110" y="58" width="1790" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- METRICS (Top Right) -->
+        <mxCell id="metric-1-label" value="40-60%" style="text;html=1;align=center;fontSize=11;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1730" y="18" width="50" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="metric-1-text" value="Ratio Selection" style="text;html=1;align=center;fontSize=9;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="1730" y="38" width="50" height="16" as="geometry" />
+        </mxCell>
+
+        <mxCell id="metric-2-label" value="25-35%" style="text;html=1;align=center;fontSize=11;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1800" y="18" width="50" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="metric-2-text" value="Offer Sourcing" style="text;html=1;align=center;fontSize=9;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="1800" y="38" width="50" height="16" as="geometry" />
+        </mxCell>
+
+        <mxCell id="metric-3-label" value="30-50%" style="text;html=1;align=center;fontSize=11;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1870" y="18" width="50" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="metric-3-text" value="Lower Costs" style="text;html=1;align=center;fontSize=9;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="1870" y="38" width="50" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- ========== FAILURE SCENARIOS (LEFT PANEL) ========== -->
+        <mxCell id="fail-title" value="⚠ FAILURE SCENARIOS&#10;Over 60% Drop-Offs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c62828;strokeColor=#000000;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#ffffff;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="15" y="120" width="135" height="62" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fail-1" value="📋 Duplicate Candidates&#10;• Profiles not united or merged" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#b71c1c;strokeWidth=2;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="15" y="187" width="135" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fail-2" value="📄 Parsing Failures&#10;• Critical data missing&#10;• Still incomplete" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#ffcdd2;strokeColor:#b71c1c;strokeWidth=2;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="15" y="252" width="135" height="68" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fail-3" value="🔍 Poor Screening Decisions&#10;• Great fit auto-rejected&#10;• Algorithm not calibrated" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#ffcdd2;strokeColor:#b71c1c;strokeWidth=2;fontSize=8;fontColor:#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="15" y="325" width="135" height="72" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fail-4" value="💬 Bad Interviews&#10;• AI rating inaccurate&#10;• Missed key signals" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#ffcdd2;strokeColor:#b71c1c;strokeWidth=2;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="15" y="402" width="135" height="68" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fail-5" value="👔 Manager Overrides&#10;• Hiring mgr bias, reason unclear&#10;• Not data-backed" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#ffcdd2;strokeColor:#b71c1c;strokeWidth=2;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="15" y="475" width="135" height="72" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fail-6" value="💰 Offer Drop-Offs&#10;• High counter asks&#10;• Needs better timing" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#ffcdd2;strokeColor:#b71c1c;strokeWidth=2;fontSize=8;fontColor:#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="15" y="552" width="135" height="68" as="geometry" />
+        </mxCell>
+
+        <!-- ========== STAGE 1: REQUISITION ========== -->
+        <mxCell id="s1-header" value="① REQUISITION&#10;Prep &amp; Screening" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#1565c0;strokeColor=#1565c0;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#ffffff;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="165" y="120" width="105" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s1-1" value="JD Input&#10;Hiring Manager Request&#10;Job Requisition" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#bbdefb;strokeColor:#1565c0;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="165" y="180" width="105" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s1-2" value="Identity Resolution Agent&#10;(Deduplicate + Match&#10;Candidate Hash)" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#bbdefb;strokeColor=#1565c0;strokeWidth=1;fontSize=7;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="165" y="240" width="105" height="62" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s1-3" value="Structured JD Generator&#10;(Detect Needed)" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#bbdefb;strokeColor=#1565c0;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="165" y="307" width="105" height="58" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s1-decision" value="Duplicate?" style="rhombus;whiteSpace=wrap;html=1;fillColor:#ffc107;strokeColor=#f57f17;strokeWidth=2;fontSize=9;fontStyle=1;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="177" y="375" width="81" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s1-yes" value="Yes" style="text;html=1;align=center;fontSize=9;fontColor=#d32f2f;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="138" y="395" width="30" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- ========== STAGE 2: SOURCING ========== -->
+        <mxCell id="s2-header" value="② SOURCING&#10;Candidate Hunt" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#2e7d32;strokeColor:#2e7d32;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#ffffff;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="295" y="120" width="105" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s2-1" value="Candidate Ingestion&#10;LinkedIn, Naukri, Referral Sources" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#c8e6c9;strokeColor:#2e7d32;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="295" y="180" width="105" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s2-2" value="Identity Resolution Agent&#10;(Deduplicate-Match&#10;Duplicate Match)" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#c8e6c9;strokeColor:#2e7d32;strokeWidth=1;fontSize=7;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="295" y="240" width="105" height="62" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s2-3" value="Merge Profiles &amp;&#10;Interview History" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#c8e6c9;strokeColor=#2e7d32;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="295" y="307" width="105" height="58" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s2-4" value="Unified Candidate Profile&#10;(HRIS maintained)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="295" y="370" width="105" height="58" as="geometry" />
+        </mxCell>
+
+        <!-- ========== STAGE 3: PARSING ========== -->
+        <mxCell id="s3-header" value="③ PARSING&#10;Resume Parsing" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#7b1fa2;strokeColor:#7b1fa2;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#ffffff;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="425" y="120" width="105" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s3-1" value="Resume Parsing Agent&#10;(NER, Matches - LLM)" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#e1bee7;strokeColor:#7b1fa2;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="425" y="180" width="105" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s3-2" value="Extracted Data&#10;Skills, Experience&#10;Education, Projects" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#e1bee7;strokeColor:#7b1fa2;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="425" y="240" width="105" height="62" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s3-decision" value="Parsing&#10;Confidence&#10;High?" style="rhombus;whiteSpace=wrap;html=1;fillColor:#ffc107;strokeColor:#f57f17;strokeWidth=2;fontSize=8;fontStyle=1;fontColor:#000000;" vertex="1" parent="1">
+          <mxGeometry x="435" y="308" width="85" height="78" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s3-no" value="No" style="text;html=1;align=center;fontSize=9;fontColor=#d32f2f;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="410" y="330" width="20" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s3-review" value="Human Review Requested&#10;Resume Correction" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#fff9c4;strokeColor:#f57f17;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="365" y="395" width="105" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s3-normalize" value="Normalize Profile&#10;(Standardized Data + Query)" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#e1bee7;strokeColor:#7b1fa2;strokeWidth=1;fontSize=8;fontColor:#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="425" y="395" width="105" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ========== STAGE 4: SCREENING ========== -->
+        <mxCell id="s4-header" value="④ SCREENING&#10;Hits, Scores &amp; Ranks" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#ff6f00;strokeColor:#ff6f00;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#ffffff;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="555" y="120" width="105" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s4-1" value="Match Scores&#10;Match Scores, Ranks" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#ffe0b2;strokeColor:#ff6f00;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="555" y="180" width="105" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s4-2" value="Screening Agent&#10;Embeddings + LLM Ranking" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#ffe0b2;strokeColor:#ff6f00;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="555" y="235" width="105" height="62" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s4-3" value="Human Review &amp; Calibration&#10;Skill Matching, Technical Aptitude, Problem Solving" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#ffe0b2;strokeColor:#ff6f00;strokeWidth=1;fontSize=7;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="555" y="302" width="105" height="72" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s4-4" value="Key Metrics:&#10;% Alignment, Depth&#10;Opportunity Parity" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#ffe0b2;strokeColor:#ff6f00;strokeWidth=1;fontSize=7;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="555" y="379" width="105" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s4-decision" value="Score?" style="rhombus;whiteSpace=wrap;html=1;fillColor:#ffc107;strokeColor:#f57f17;strokeWidth=2;fontSize=9;fontStyle=1;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="575" y="450" width="65" height="62" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s4-reject" value="&lt;60&#10;Reject" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#ffccbc;strokeColor=#d84315;strokeWidth=1;fontSize=8;fontStyle=1;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="515" y="455" width="55" height="52" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s4-review" value="60-75&#10;Review" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#f57f17;strokeWidth=1;fontSize=8;fontStyle=1;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="575" y="520" width="65" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s4-shortlist" value="&gt;75&#10;Shortlist" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor:#388e3c;strokeWidth=1;fontSize=8;fontStyle=1;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="635" y="455" width="55" height="52" as="geometry" />
+        </mxCell>
+
+        <!-- ========== STAGE 5: INTERVIEW ========== -->
+        <mxCell id="s5-header" value="⑤ INTERVIEW&#10;Interaction &amp; Scoring" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#3949ab;strokeColor:#3949ab;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#ffffff;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="735" y="120" width="105" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s5-1" value="Interview Agent&#10;(All Formats)" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#c5cae9;strokeColor:#3949ab;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="735" y="180" width="105" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s5-2" value="Baseline &amp; Candler&#10;Skill Depth, Problem Solving, Behavioral Assessment" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#c5cae9;strokeColor:#3949ab;strokeWidth=1;fontSize=7;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="735" y="235" width="105" height="72" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s5-decision" value="AI Confidence&#10;&gt; 50%?" style="rhombus;whiteSpace=wrap;html=1;fillColor:#ffc107;strokeColor:#f57f17;strokeWidth=2;fontSize=8;fontStyle=1;fontColor:#000000;" vertex="1" parent="1">
+          <mxGeometry x="745" y="315" width="85" height="75" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s5-yes" value="Yes" style="text;html=1;align=center;fontSize=9;fontColor:#2e7d32;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="780" y="330" width="25" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s5-decide" value="Final Decision&#10;Mode?" style="rhombus;whiteSpace=wrap;html=1;fillColor:#ffc107;strokeColor:#f57f17;strokeWidth=2;fontSize=8;fontStyle=1;fontColor:#000000;" vertex="1" parent="1">
+          <mxGeometry x="735" y="400" width="105" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- ========== STAGE 6: DECISION ========== -->
+        <mxCell id="s6-header" value="⑥ DECISION&#10;Conflict Resolution" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#00796b;strokeColor:#00796b;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#ffffff;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="885" y="120" width="105" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s6-1" value="Final Candidate&#10;Shortlist" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b2dfdb;strokeColor:#00796b;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="885" y="180" width="105" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s6-2" value="Conflict Detector" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b2dfdb;strokeColor=#00796b;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="885" y="235" width="105" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s6-decision" value="Conflict&#10;Detected?" style="rhombus;whiteSpace=wrap;html=1;fillColor:#ffc107;strokeColor:#f57f17;strokeWidth=2;fontSize=8;fontStyle=1;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="895" y="295" width="85" height="75" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s6-yes" value="Yes" style="text;html=1;align=center;fontSize=9;fontColor=#d32f2f;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="920" y="310" width="25" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s6-committee" value="Pact Review / Hiring Committee&#10;Consensus Review" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#80deea;strokeColor:#0097a7;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="885" y="378" width="105" height="62" as="geometry" />
+        </mxCell>
+
+        <!-- ========== STAGE 7: OFFER ========== -->
+        <mxCell id="s7-header" value="⑦ OFFER&#10;Close &amp; Negotiate" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#ff6f00;strokeColor:#ff6f00;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#ffffff;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1025" y="120" width="105" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s7-1" value="Offer Generation Agent&#10;(Iteration Request)" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#ffe082;strokeColor:#ff6f00;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1025" y="180" width="105" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s7-2" value="Offer Acceptance Prediction&#10;(Behavioral Data)" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#ffe082;strokeColor:#ff6f00;strokeWidth=1;fontSize=8;fontColor:#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1025" y="240" width="105" height="62" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s7-3" value="Offer Engagement Actions&#10;Personalized Offer" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#ffe082;strokeColor:#ff6f00;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1025" y="307" width="105" height="58" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s7-decision" value="High Drop&#10;Risk?" style="rhombus;whiteSpace=wrap;html=1;fillColor:#ffc107;strokeColor:#f57f17;strokeWidth=2;fontSize=8;fontStyle=1;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="375" width="85" height="72" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s7-no" value="No" style="text;html=1;align=center;fontSize=9;fontColor=#2e7d32;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="395" width="20" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- ========== HUMAN-AI INTERACTION PANEL ========== -->
+        <mxCell id="human-header" value="👤 HUMAN-AI INTERACTION&#10;Where Humans Lead" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0097a7;strokeColor=#00838f;strokeWidth=2;fontSize=9;fontStyle=1;fontColor=#ffffff;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1165" y="120" width="120" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h-1" value="JD Refinement&#10;(Focus on Human Connection)" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#b2ebf2;strokeColor:#0097a7;strokeWidth=1;fontSize=8;fontColor:#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1165" y="190" width="120" height="58" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h-2" value="Candidate Enrichment&#10;Reacquire data can mergeable Reqs" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#b2ebf2;strokeColor:#0097a7;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1165" y="253" width="120" height="62" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h-3" value="Strategic Screening&#10;Benefactor next Targets" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#b2ebf2;strokeColor=#0097a7;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1165" y="320" width="120" height="58" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h-4" value="Decision Calibration&#10;Management inspection" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#b2ebf2;strokeColor=#0097a7;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1165" y="383" width="120" height="58" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h-5" value="Decision Collaboration&#10;Decision signed nominate" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#b2ebf2;strokeColor:#0097a7;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1165" y="446" width="120" height="58" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h-6" value="System Improves&#10;Feedback from human signals" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b2ebf2;strokeColor:#0097a7;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1165" y="509" width="120" height="62" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h-7" value="Interview CV Pilot&#10;Offer Engagement Plan" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#b2ebf2;strokeColor:#0097a7;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1165" y="576" width="120" height="58" as="geometry" />
+        </mxCell>
+
+        <!-- AUDIT LINE -->
+        <mxCell id="audit-line" value="🔐 Every decision, score, override &amp; action is logged for auditability &amp; learning" style="text;html=1;align=center;verticalAlign=middle;fontSize=9;fontStyle=1;fontColor=#d32f2f;dashed=1;dashPattern=4 4;strokeColor=#d32f2f;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="165" y="605" width="1000" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- CONTINUOUS LEARNING HEADER -->
+        <mxCell id="learning-header-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a237e;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="650" width="1920" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="learning-header" value="🔄 CONTINUOUS LEARNING &amp; FEEDBACK LOOP (The System Gets Smarter Over Time)" style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="15" y="650" width="1890" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- LEARNING COMPONENTS -->
+        <mxCell id="learn-1" value="📊 ATS Integration&#10;• Compliance (SOC2)&#10;• HRIS" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#bbdefb;strokeColor:#1976d2;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="20" y="700" width="110" height="72" as="geometry" />
+        </mxCell>
+
+        <mxCell id="learn-2" value="🔐 Security &amp; Compliance&#10;• Privacy Standards&#10;• Audit Logging" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#bbdefb;strokeColor=#1976d2;strokeWidth=1;fontSize=8;fontColor:#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="140" y="700" width="110" height="72" as="geometry" />
+        </mxCell>
+
+        <mxCell id="learn-3" value="🤖 MLOps &amp; LLMOps&#10;• Model Drift Detection&#10;• Drift Monitoring" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#bbdefb;strokeColor:#1976d2;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="260" y="700" width="110" height="72" as="geometry" />
+        </mxCell>
+
+        <mxCell id="learn-4" value="📈 HR Analytics Stack&#10;• Scenario Analysis&#10;• Hire Metrics KPIs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#bbdefb;strokeColor=#1976d2;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="380" y="700" width="110" height="72" as="geometry" />
+        </mxCell>
+
+        <mxCell id="learn-5" value="✓ Post-Hire Outcomes&#10;• Attrition, Salary levels&#10;• Retention 180 Days" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#388e3c;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="500" y="700" width="110" height="72" as="geometry" />
+        </mxCell>
+
+        <mxCell id="learn-6" value="🎯 Success Metrics&#10;• Predict Quality of Hire&#10;• Diversity Metrics" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#388e3c;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="620" y="700" width="110" height="72" as="geometry" />
+        </mxCell>
+
+        <mxCell id="learn-7" value="⚙️ Model Updates&#10;• LLM Fine-tuning&#10;• Threshold Tuning" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#f57f17;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="740" y="700" width="110" height="72" as="geometry" />
+        </mxCell>
+
+        <mxCell id="learn-8" value="✨ System Improves&#10;• Combat Bias&#10;• Adjust Thresholds" style="rounded=1;whiteSpace=wrap;html=1;fillColor:#c8e6c9;strokeColor=#388e3c;strokeWidth=1;fontSize=8;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="860" y="700" width="110" height="72" as="geometry" />
+        </mxCell>
+
+        <!-- INTEGRATIONS -->
+        <mxCell id="integration-text" value="Integration Points: SAP, Greenhouse, Workday, etc." style="text;html=1;align=center;fontSize=8;fontStyle=1;fontColor=#1a237e;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="715" width="180" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- LEGEND -->
+        <mxCell id="legend-text" value="LEGEND:" style="text;html=1;align=left;fontSize=9;fontStyle=1;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1265" y="700" width="60" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend-1" value="🤖 Agent" style="text;html=1;align=center;fontSize=8;fontColor:#000000;" vertex="1" parent="1">
+          <mxGeometry x="1265" y="725" width="70" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend-2" value="👤 Human Review" style="text;html=1;align=center;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1265" y="748" width="95" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend-3" value="◇ Decision Point" style="text;html=1;align=center;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="725" width="95" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend-4" value="📊 Data / Output" style="text;html=1;align=center;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="748" width="95" height="18" as="geometry" />
+        </mxCell>
+
+        <!-- FOOTER -->
+        <mxCell id="footer" value="Created by Narasimman Saravana | GenAI Architect" style="text;html=1;align=right;fontSize=9;fontStyle=1;fontColor=#1a237e;" vertex="1" parent="1">
+          <mxGeometry x="1650" y="780" width="260" height="22" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
