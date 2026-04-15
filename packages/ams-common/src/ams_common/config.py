@@ -26,6 +26,27 @@ class ServiceSettings(BaseSettings):
     )
     api_prefix: str = "/api/v1"
 
+    # Database
+    db_url: str = "postgresql+psycopg2://ams:ams@localhost:5432/ams_ai"
+    db_echo: bool = False
+    db_pool_size: int = 20
+    db_max_overflow: int = 10
+
+    # Redis
+    redis_url: str = "redis://localhost:6379/0"
+
+    # Celery
+    celery_broker_url: str = Field(default_factory=lambda: None)
+    celery_result_backend: str = Field(default_factory=lambda: None)
+
     @property
     def is_production(self) -> bool:
         return self.environment == "production"
+
+    def __init__(self, **data):
+        super().__init__(**data)
+        # Default Celery to Redis if not set
+        if not self.celery_broker_url:
+            self.celery_broker_url = self.redis_url
+        if not self.celery_result_backend:
+            self.celery_result_backend = self.redis_url

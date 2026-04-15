@@ -11,8 +11,11 @@ from starlette.responses import JSONResponse, Response
 
 from ams_common.logging import configure_logging, get_logger
 from ams_common.middleware import RequestIdMiddleware
+from gateway_service.auth import AuthMiddleware
 from gateway_service.proxy import forward_request
+from gateway_service.rate_limit import RateLimitMiddleware
 from gateway_service.settings import GatewaySettings, get_gateway_settings
+from gateway_service.validation import RequestValidationMiddleware
 
 _LOG = get_logger(__name__)
 
@@ -33,12 +36,17 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title="AMS-AI API Gateway",
         version="0.1.0",
-        description="Routes /api/v1/{agents|orchestrations|tools|executions} to domain services.",
+        description="Routes /api/v1/{agents|orchestrations|tools|executions} to domain services",
         lifespan=lifespan,
         docs_url="/docs" if not settings.is_production else None,
         redoc_url="/redoc" if not settings.is_production else None,
     )
+
+    # Middleware stack (order matters - innermost first)
     app.add_middleware(RequestIdMiddleware)
+    app.add_middleware(RequestValidationMiddleware)
+    app.add_middleware(RateLimitMiddleware, requests_per_minute=100)
+    app.add_middleware(AuthMiddleware)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins,
@@ -56,11 +64,18 @@ def create_app() -> FastAPI:
         return {"status": "ok", "component": "gateway"}
 
     @app.get("/", tags=["meta"])
-    async def root() -> dict[str, str]:
+    async def root() -> dict[str, object]:
         return {
             "service": "ams-gateway",
+            "version": "0.1.0",
             "docs": "/docs",
-            "routes": "/api/v1/{agents|orchestrations|tools|executions} -> upstream services",
+            "routes": "/api/v1/{agents|orchestrations|tools|executions}",
+            "upstream_services": {
+                "agents": settings.agent_service_url,
+                "orchestrations": settings.orchestration_service_url,
+                "tools": settings.tool_service_url,
+                "executions": settings.execution_service_url,
+            },
         }
 
     @app.middleware("http")
@@ -68,6 +83,8 @@ def create_app() -> FastAPI:
         request: Request, call_next: RequestResponseEndpoint
     ) -> Response:
         path = request.url.path
+
+        # Pass through health and docs endpoints
         if path in ("/",) or path.startswith("/health") or path.startswith("/docs"):
             return await call_next(request)
         if path.startswith("/openapi.json") or path.startswith("/redoc"):
@@ -76,6 +93,7 @@ def create_app() -> FastAPI:
         cfg: GatewaySettings = get_gateway_settings()
         client: httpx.AsyncClient = request.app.state.http_client
 
+        # Route to appropriate service
         if path.startswith("/api/v1/agents"):
             return await forward_request(request, cfg.agent_service_url, client)
         if path.startswith("/api/v1/orchestrations"):
@@ -85,7 +103,9 @@ def create_app() -> FastAPI:
         if path.startswith("/api/v1/executions"):
             return await forward_request(request, cfg.execution_service_url, client)
 
-        return JSONResponse(status_code=404, content={"detail": "Not Found"})
+        return JSONResponse(
+            status_code=404, content={"detail": "Not Found", "path": path}
+        )
 
     return app
 

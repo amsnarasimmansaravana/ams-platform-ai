@@ -78,6 +78,26 @@ services:
 
   redis:
     image: redis:7-alpine
+    expose:
+      - "6379"
+    volumes:
+      - redisdata:/data
+
+  celery-worker:
+    build:
+      context: .
+      dockerfile: services/execution-service/Dockerfile
+    command: python -m execution_service.worker
+    environment:
+      AMS_SERVICE_NAME: celery-worker
+      AMS_LOG_JSON: "true"
+    depends_on:
+      - redis
+      - postgres
+
+volumes:
+  pgdata:
+  redisdata:
     ports:
       - "6379:6379"
 
