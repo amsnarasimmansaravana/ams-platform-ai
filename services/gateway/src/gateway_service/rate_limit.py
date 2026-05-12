@@ -2,7 +2,6 @@
 
 from collections import defaultdict
 from datetime import datetime, timedelta
-from typing import Optional
 
 from fastapi import HTTPException, status
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint

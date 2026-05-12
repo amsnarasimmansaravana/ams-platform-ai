@@ -1,7 +1,5 @@
 """Authentication middleware for API Gateway."""
 
-from typing import Optional
-
 from fastapi import HTTPException, status
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.requests import Request
