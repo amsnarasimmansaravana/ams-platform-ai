@@ -36,8 +36,8 @@ class ServiceSettings(BaseSettings):
     redis_url: str = "redis://localhost:6379/0"
 
     # Celery
-    celery_broker_url: str = Field(default_factory=lambda: None)
-    celery_result_backend: str = Field(default_factory=lambda: None)
+    celery_broker_url: str | None = Field(default=None)
+    celery_result_backend: str | None = Field(default=None)
 
     @property
     def is_production(self) -> bool:
